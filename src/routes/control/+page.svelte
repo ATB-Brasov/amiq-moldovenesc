@@ -34,10 +34,26 @@
                             use:enhance
                         >
 
-                            clicks: {data2.counter}
-                            <Button type=submit>
-                                Click me
-                            </Button>
+                            <p>
+                                <Button formaction="?/decrement" type=submit>
+                                    Anteriorul
+                                </Button>
+                                Nr întrebare: {data2.counter}
+                                <Button formaction="?/increment" type=submit>
+                                    Următorul
+                                </Button>
+                            </p>
+
+                            <p>
+                                <Button variant="secondary" formaction="?/corect" type="submit">
+                                    Răspuns corect
+                                </Button>
+                                Nr întrebare: {data2.counter}
+                                <Button formaction="?/necorect" type="submit">
+                                    Răspuns necorect
+                                </Button>
+                            </p>
+
 
                         </form>
 

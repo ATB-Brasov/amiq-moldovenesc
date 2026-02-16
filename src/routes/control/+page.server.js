@@ -7,9 +7,26 @@ export async function load() {
 
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
-    default: async ({locals}) => {
-        x.emitter.dispatchEvent(new Event("message"))
+    corect: async ({}) => {
+        x.event_type = "corect";
+        x.emitter.dispatchEvent(new Event("control"));
+        return { success: true };
+    },
+    necorect: async ({}) => {
+        x.event_type = "necorect";
+        x.emitter.dispatchEvent(new Event("control"))
+        return { success: true };
+    },
+    decrement: async ({}) => {
+        x.event_type = "contor";
+        x.counter -= 1;
+        x.emitter.dispatchEvent(new Event("control"))
+        return { success: true };
+    },
+    increment: async ({}) => {
+        x.event_type = "contor";
         x.counter += 1;
+        x.emitter.dispatchEvent(new Event("control"))
         return { success: true };
     }
 }
