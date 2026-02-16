@@ -5,6 +5,25 @@ import { x, echipe, intrebari} from '$lib/db.js';
 
 export function POST() {
     return produce(async function start({ emit }) {
+
+
+        {
+            const punctaj = echipe[0].puncte
+            const {error} = emit(`puncte1`, punctaj.toString())
+            if(error) {
+                console.log(error)
+                return
+            }
+        }
+        {
+            const punctaj = echipe[1].puncte
+            const {error} = emit(`puncte2`, punctaj.toString())
+            if(error) {
+                console.log(error)
+                return
+            }
+        }
+
         while (true) {
 
             if (x.event_type.startsWith('apasat-')) {
