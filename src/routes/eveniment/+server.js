@@ -1,13 +1,34 @@
 // src/routes/custom-event/+server.js
 import { pEvent } from "p-event";
 import { produce } from 'sveltekit-sse';
-import { x } from '$lib/db.js';
+import { x, echipe, intrebari} from '$lib/db.js';
 
 export function POST() {
     return produce(async function start({ emit }) {
         while (true) {
 
-            if (x.event_type === 'contor') {
+            if (x.event_type.startsWith('apasat-')) {
+
+                const found = x.event_type.match(/apasat-(\d)/)
+                if (found === null) {
+                    console.error("Why is found null? It cannot be null!!!!")
+                    continue
+                }
+                console.log(found[1])
+
+                const {error} = emit('apasat', found[1])
+                if(error) {
+                    console.log(error)
+                    return
+                }
+
+            } else if (x.event_type === 'reseteaza-respondent') {
+                const {error} = emit('apasat', "0")
+                if(error) {
+                    console.log(error)
+                    return
+                }
+            } else if (x.event_type === 'contor') {
 
                 const {error} = emit('counter', `${x.counter}`)
                 if(error) {
@@ -19,10 +40,16 @@ export function POST() {
                     console.log(error2)
                     return
                 }
+                const {error: error3} = emit('apasat', "0")
+                if(error3) {
+                    console.log(error3)
+                    return
+                }
 
-            } else if (x.event_type === "necorect") {
 
-                const {error} = emit('raspuns', `necorect`)
+            } else if (x.event_type === "gresit") {
+
+                const {error} = emit('raspuns', 'gresit')
                 if(error) {
                     console.log(error)
                     return
@@ -30,10 +57,20 @@ export function POST() {
 
             } else if (x.event_type === "corect") {
 
-                const {error} = emit('raspuns', `corect`)
-                if(error) {
-                    console.log(error)
-                    return
+                if (x.echipa_activa !== 0) {
+                    const {error} = emit('raspuns', `corect`)
+                    if(error) {
+                        console.log(error)
+                        return
+                    }
+
+                    echipe[x.echipa_activa - 1].puncte += intrebari[x.counter].puncte
+                    const punctaj = echipe[x.echipa_activa - 1].puncte
+                    const {error: error2} = emit(`puncte${x.echipa_activa}`, punctaj.toString())
+                    if(error2) {
+                        console.log(error2)
+                        return
+                    }
                 }
 
             }

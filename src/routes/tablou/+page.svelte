@@ -1,48 +1,60 @@
 <script>
 
 import { source } from 'sveltekit-sse'
-const event = source('/eveniment')
-
-console.log(event)
-
-let echipa1 = {
-    puncte: 0,
-    denumirea: "BeRe"
-}
-
-let echipa2 = {
-    puncte: 0,
-    denumirea: "MeRe"
-}
-
-const intrebari = [
-    { titlu: "Ĉine-i krasavĉik?", raspuns: "Vițăpredsedatel' Coordonator EduTI"},
-    { titlu: "Ĉine e Costea?", raspuns: "Un om mare!"}
-]
-
-const nr_intrebare = event.select('counter')
-const corect = event.select("raspuns")
 
 /** @type {{ data: import('./$types').PageData }} */
-// let { data } = $props();
-console.log(corect)
+let { data } = $props();
+
+const echipa1 = data.echipe[0]
+const echipa2 = data.echipe[1]
+
+
+const intrebari = data.intrebari
+
+const event = source('/eveniment')
+const nr_intrebare = event.select('counter')
+const raspuns = event.select("raspuns")
+const apasat = event.select("apasat")
+const echipa1_puncte = event.select("puncte1")
+const echipa2_puncte = event.select("puncte2")
+console.log(event)
+
 
 </script>
 
-<h1>Tablou</h1>
+<div class="w-[300px] mx-auto mt-10 p-1 bg-stone-50 border rounded shadow">
 
-<p>
-Echipa {echipa1.denumirea} : {echipa1.puncte}
-</p>
+    <h1 class="bg-yellow-100/50 rounded p-1 border border-yellow-300">Tablou</h1>
 
-<p>
-Echipa {echipa2.denumirea} : {echipa2.puncte}
-</p>
+    <div class="p-1">
+    <p>
+    Echipa {echipa1.denumirea} : {$echipa1_puncte ?? 0}
+    </p>
 
-<p>
-    Întrebare: {intrebari[($nr_intrebare??0)%intrebari.length].titlu}
-</p>
+    <p>
+    Echipa {echipa2.denumirea} : {$echipa2_puncte ?? 0}
+    </p>
 
-<div>
-Raspuns: {$corect}
+    <div>
+        Răspunde: 
+
+        {#if $apasat === "1"}
+            {echipa1.denumirea}
+        {:else if $apasat === "2"}
+            {echipa2.denumirea}
+        {:else}
+            Nimeni
+        {/if}
+
+        </div>
+
+    <p>
+        Întrebare: {intrebari[($nr_intrebare??0)%intrebari.length].titlu}
+    </p>
+
+    <div>
+    Raspuns: {$raspuns}
+    </div>
+
+    </div>
 </div>
