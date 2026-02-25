@@ -4,20 +4,20 @@
     import AppSidebar from "$lib/components/app-sidebar.svelte";
     import SiteHeader from "$lib/components/site-header.svelte";
     import SectionCards from "$lib/components/echipe-cards.svelte";
-    import ChartAreaInteractive from "$lib/components/chart-area-interactive.svelte";
+    // import ChartAreaInteractive from "$lib/components/chart-area-interactive.svelte";
     import DataTable from "$lib/components/data-table-questions.svelte";
     // import DataTable from "$lib/components/data-table.svelte";
 
-
+    import { intrebari } from '$lib/db.js'
     import { enhance } from '$app/forms';
     import * as ButtonGroup from "$lib/components/ui/button-group/index.js";
     import { Button } from '$lib/components/ui/button';
 
     /** @type {import('./$types').PageProps} */
     let { data, form } = $props();
-    const intrebari = data.intrebari
-    const echipe = $state(data.echipe)
-    console.log("intrebari", intrebari)
+    const echipe = $derived(data.echipe)
+
+    // console.log("intrebari", intrebari)
 </script>
 
 
@@ -36,13 +36,14 @@
                         <form
                             class="px-4" 
                             method="POST"
+                            use:enhance
                         >
 
                             <div class="pb-2">
                                 <Button formaction="?/decrement" type=submit>
                                     Anteriorul
                                 </Button>
-                                Nr întrebare: {data.counter}
+                                Nr întrebare: {data.nr_intrebare+1}
                                 <Button formaction="?/increment" type=submit>
                                     Următorul
                                 </Button>
@@ -66,7 +67,7 @@
 
                     </div>
 
-                    <DataTable data={intrebari.map(i => ({...i, selectat: i.id === (data.counter%intrebari.length + 1)}))} />
+                    <DataTable data={intrebari.map((el, i) => ({...el, id: i, selectat: i === (data.nr_intrebare%intrebari.length)}))} />
 
                     <!-- <DataTable data={ intrebari.map(i => ({ -->
                     <!--     id: i.id,  -->

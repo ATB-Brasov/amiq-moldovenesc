@@ -9,11 +9,15 @@
   Vițăpredsedatel' Coordonator EduTI
 
 * Jioc
-  - ( ) Animație de începutul jocului. ( De fapt poate fi și animația de tranziție)[Care a făcuto Valeria]
-  - ( ) Tranziții
+
+** ( ) Vizual
+   -- ( ) Animație de începutul jocului. (De fapt poate fi și animația de tranziție) Care a făcut-o Valeria
+   -- ( ) Tranziții
+
+   ---
 
   - ( ) De adăugat muzică pentru caraoche
-  - ( ) să încercăm să integrăm și imagini 
+  - (x) să încercăm să integrăm și imagini 
         Pentru *Formula Basarabească*
   - ( ) Cronometru, reglabil
         Putem schimba timpul, adăuga +5s, sau nu

@@ -2,8 +2,7 @@
 
 with pkgs; mkShell {
   buildInputs = [
-    htmlq
-
+    svelte-language-server
     bun
     nodejs
     # nodejs_22

@@ -4,15 +4,12 @@
 
     /** @type {import('./$types').PageProps} */
     const { data, params } = $props()
-    const { nr } = params;
-
-    console.log(params)
 
 </script>
 
 
 <form method=POST use:enhance>
-    <input value={nr} type="hidden" name="nr_echipa">
+    <input value={params.nr} type="hidden" name="nr_echipa">
     <button>
     Echipa: {data.echipa.denumirea}
     </button>
