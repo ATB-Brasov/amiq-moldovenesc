@@ -40,3 +40,9 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+
+# ESP
+
+Pentru a nu se conecta la esp cu `sudo` am rulat următoarea comandă `sudo usermod -aG dialout $USER`
+
+Trebuie de adăugat numele și parola la Wi-Fi!
