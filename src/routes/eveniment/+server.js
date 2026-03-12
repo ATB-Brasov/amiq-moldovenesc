@@ -1,7 +1,7 @@
 // src/routes/custom-event/+server.js
 import { pEvent } from "p-event";
 import { produce } from "sveltekit-sse";
-import { x, echipe, intrebari} from "$lib/db.js";
+import { x, echipe } from "$lib/db.js";
 
 export function POST() {
     return produce(async function start({ emit }) {
@@ -24,15 +24,42 @@ export function POST() {
                     return
                 }
 
+                const {error: error2} = emit("raspuns", "")
+                if(error2) {
+                    console.log(error2)
+                    return
+                }
+
             } else if (x.event_type === "reseteaza-respondent") {
                 const {error} = emit("apasat", "0")
                 if(error) {
                     console.log(error)
                     return
                 }
-                const {error: error2} = emit("raspuns", "...")
+                const {error: error2} = emit("raspuns", "")
                 if(error2) {
                     console.log(error2)
+                    return
+                }
+            } else if (x.event_type === "reseteaza-joc") {
+                const {error} = emit("apasat", "0")
+                if(error) {
+                    console.log(error)
+                    return
+                }
+                const {error: error2} = emit("raspuns", "")
+                if(error2) {
+                    console.log(error2)
+                    return
+                }
+                let resp = emit('puncte1', '0')
+                if(resp.error) {
+                    console.log(resp.error)
+                    return
+                }
+                resp = emit('puncte2', '0')
+                if(resp.error) {
+                    console.log(resp.error)
                     return
                 }
             } else if (x.event_type === "nr_intrebare") {
@@ -42,7 +69,7 @@ export function POST() {
                     console.log(error)
                     return
                 }
-                const {error: error2} = emit("raspuns", "...")
+                const {error: error2} = emit("raspuns", "")
                 if(error2) {
                     console.log(error2)
                     return
@@ -81,6 +108,12 @@ export function POST() {
 
             }
             // x.event_type = ""
+
+            const {error} = emit("timp", x.timp.toString())
+            if(error) {
+                console.log(error)
+                return
+            }
 
             const event = await pEvent(x.emitter, "control")
             console.log("x.event_type", x.event_type)

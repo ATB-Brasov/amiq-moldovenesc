@@ -2,29 +2,58 @@ export const x = {
     echipa_activa: 0,
     nr_intrebare: 0, // TODO: De schimbat numele!
     emitter: new EventTarget(),
-    event_type: "",
-}
+    event_type: '',
+    asteapta: true,
+    timp: 0,
+    cronometrul: setInterval(() => {
+        x.timp = Math.max(0, x.timp-1);
+        x.event_type = 'xronox'
+        x.emitter.dispatchEvent(new Event('control'));
+    }, 1000),
+};
 
 export const echipe = [
-    { puncte: 0, denumirea: "BeRe" },
-    { puncte: 0, denumirea: "MeRe" }
-]
+    { puncte: 0, denumirea: 'BeRe' },
+    { puncte: 0, denumirea: 'MeRe' },
+];
 
+/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec'} TipIntrebare */
 
 /**
  * @typedef {Object} Intrebare
- * @property {number} id - Identificatorul întrebării
- * @property { 'text' | 'imagine' | 'emoji' | 'da-nu' | 'cintec' } tip - Tipul întrebării
+ * @property {TipIntrebare} tip - Tipul întrebării
  * @property {string} titlu - Întrebarea propriu zisă
- * @property {string} html - Html pentru a include imaginile
+ * @property {string} [html] - Html pentru a include imaginile
  * @property {string} raspuns - Răspunsul întrebării
  * @property {number} puncte - Punctele atribuite la răspuns corect
  */
 
 /** @type {Intrebare[]} */
 export const intrebari = [
-    { tip: 'text', titlu: "Ĉine-i krasavĉik?", raspuns: "Vițăpredsedatel' Coordonator EduTI", puncte: 1},
-    { tip: 'emoji', titlu: "🆓🧀🪤", raspuns: "Brînza gratis îi numai în capcană (бесплатнный сыр только в мышиловке)", puncte: 1},
-    { tip: 'emoji', titlu: "🤣🤣🤣🏁", raspuns: "Rîde cel ce rîde la urmă", puncte: 1},
-    { tip: 'imagine', titlu: "peepoo + calendar", html: "<img height='100px' src='/img/peepoo.webp'> + <img height='100px' src='/img/calendar.webp'>", raspuns: "It's wednesday ma' dudes!", puncte: 1},
-]
+    {
+        tip: 'text',
+        titlu: 'Ĉine-i krasavĉik?',
+        raspuns: "Vițăpredsedatel' Coordonator EduTI",
+        puncte: 1,
+    },
+    {
+        tip: 'emoji',
+        titlu: '🆓🧀🪤',
+        raspuns:
+            'Brînza gratis îi numai în capcană (бесплатнный сыр только в мышиловке)',
+        puncte: 1,
+    },
+    {
+        tip: 'emoji',
+        titlu: '🤣🤣🤣🏁',
+        raspuns: 'Rîde cel ce rîde la urmă',
+        puncte: 1,
+    },
+    {
+        tip: 'imagine',
+        titlu: 'peepoo + calendar',
+        html: "<img height='100px' src='/img/peepoo.webp'> + <img height='100px' src='/img/calendar.webp'>",
+        raspuns: "It's wednesday ma' dudes!",
+        puncte: 1,
+    },
+];

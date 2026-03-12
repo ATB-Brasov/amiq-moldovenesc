@@ -11,22 +11,38 @@
     const event = source('/eveniment');
     const nr_intrebare = event.select('nr_intrebare');
     const raspuns = event.select('raspuns');
-    const apasat = event.select('apasat');
+
+    const apasat = (event.select('apasat'));
+    const echipa_activa = $derived($apasat ? $apasat : data.echipa_activa.toString())
 
     const echipa1_puncte = event.select('puncte1');
     const echipa2_puncte = event.select('puncte2');
 
     const idx_intrebare_activa = $derived(
-        ($nr_intrebare ? $nr_intrebare : data.nr_intrebare) % intrebari.length,
+        ($nr_intrebare ? parseInt($nr_intrebare) : data.nr_intrebare) % intrebari.length,
     );
     const intrebarea_activa = $derived(intrebari[idx_intrebare_activa]);
+
+    let timp = event.select('timp');
+
+    let secunde = $derived(Math.max(0, parseInt($timp ?? 0)%60));
+    let minute = $derived(Math.max(0, Math.floor(parseInt($timp ?? 0)/60)));
+
+    /** 
+     * @param {string} text
+     * @return {string}
+     */
+    function pad_left(text) {
+        if (text.length < 2) return '0'+text;
+        return text;
+    }
 </script>
 
 <div class="fixed w-full font-bold flex flex-row justify-between text-5xl">
     <div
         class="flex w-full flex-row px-15 py-10"
-        class:text-stone-400={$apasat !== '1'}
-        class:bg-amber-100={$apasat === '1'}
+        class:text-stone-400={echipa_activa !== '1'}
+        class:bg-amber-100={echipa_activa === '1'}
     >
         <div>{echipa1.denumirea}</div>
         <div class="pl-12">
@@ -38,20 +54,18 @@
         class="w-[600px] text-center text-stone-400"
     >
         <div class="relative py-10">
-            <span>00:00</span>
-
+            <span>{pad_left(minute.toString())}:{pad_left(secunde.toString())}</span>
 
             <div class="absolute w-full bottom-[-1rem]">
-                
-            <span class="font-bold mx-auto text-emerald-500 w-fit text-center text-3xl bg-emerald-50 py-1 px-2 rounded-xl border-2 border-emerald-100">+{intrebarea_activa.puncte}pt</span>
+                <span class="font-bold mx-auto text-emerald-500 w-fit text-center text-3xl bg-emerald-50 py-1 px-2 rounded-xl border-2 border-emerald-100">+{intrebarea_activa.puncte}pt</span>
             </div>
         </div>
     </div>
 
     <div
         class="flex w-full flex-row justify-end px-15 py-10"
-        class:text-stone-400={$apasat !== '2'}
-        class:bg-amber-100={$apasat === '2'}
+        class:text-stone-400={echipa_activa !== '2'}
+        class:bg-amber-100={echipa_activa === '2'}
     >
         <div class="pr-12">
             {$echipa2_puncte ? $echipa2_puncte : echipa2.puncte}
@@ -79,7 +93,7 @@
     </div>
 </div>
 
-{#if $raspuns !== '...'}
+{#if $raspuns !== ''}
     <div 
         class="fixed bottom-0 w-full"
         class:bg-red-50={$raspuns === 'gresit'}

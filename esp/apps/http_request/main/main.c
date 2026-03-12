@@ -17,7 +17,7 @@
 #include "driver/gpio.h"
 
 // Settings
-static const uint32_t sleep_time_ms = 100;
+static const uint32_t sleep_time_ms = 50;
 
 // Server settings and URL to fetch
 #define WEB_HOST "192.168.43.196"
@@ -142,13 +142,13 @@ void app_main(void)
             path = WEB_PATH2;
             has_sent_request = false;
         } else {
-            vTaskDelay(1);
+            vTaskDelay(sleep_time_ms / portTICK_PERIOD_MS);
             continue;
         }
 
         if (has_sent_request) {
             ESP_LOGI(TAG, " request already sent, skipping");
-            vTaskDelay(1);
+            vTaskDelay(sleep_time_ms / portTICK_PERIOD_MS);
             continue;
         }
 
@@ -179,7 +179,7 @@ void app_main(void)
         ret = getaddrinfo(WEB_HOST, WEB_PORT, &hints, &dns_res);
         if (ret != 0 || dns_res== NULL) {
             ESP_LOGE(TAG, "DNS lookup failed (%d)", ret);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            vTaskDelay(sleep_time_ms / portTICK_PERIOD_MS);
             continue;
         }
 
@@ -201,7 +201,7 @@ void app_main(void)
         sock = socket(dns_res->ai_family, dns_res->ai_socktype, dns_res->ai_protocol);
         if (sock < 0) {
             ESP_LOGE(TAG, "Failed to create socket (%d): %s", errno, strerror(errno));
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            vTaskDelay(sleep_time_ms / portTICK_PERIOD_MS);
             continue;
         }
 
@@ -210,7 +210,7 @@ void app_main(void)
         if (ret < 0) {
             ESP_LOGE(TAG, "Failed to set socket send timeout (%d): %s", errno, strerror(errno));
             close(sock);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            vTaskDelay(sleep_time_ms / portTICK_PERIOD_MS);
             continue;
         }
 
@@ -219,7 +219,7 @@ void app_main(void)
         if (ret < 0) {
             ESP_LOGE(TAG, "Failed to set socket receive timeout (%d): %s", errno, strerror(errno));
             close(sock);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            vTaskDelay(sleep_time_ms / portTICK_PERIOD_MS);
             continue;
         }
 
@@ -228,7 +228,7 @@ void app_main(void)
         if (ret < 0) {
             ESP_LOGE(TAG, "Failed to connect to server (%d): %s", errno, strerror(errno));
             close(sock);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            vTaskDelay(sleep_time_ms / portTICK_PERIOD_MS);
             continue;
         }
 
@@ -241,7 +241,7 @@ void app_main(void)
         if (ret < 0) {
             ESP_LOGE(TAG, "Failed to send HTTP GET request (%d): %s", errno, strerror(errno));
             close(sock);
-            vTaskDelay(1000 / portTICK_PERIOD_MS);
+            vTaskDelay(sleep_time_ms / portTICK_PERIOD_MS);
             continue;
         }
 

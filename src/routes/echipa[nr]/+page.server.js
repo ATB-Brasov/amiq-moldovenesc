@@ -9,10 +9,15 @@ export async function load({ params }) {
 export const actions = {
     default: async ({ params }) => { 
         // console.log("form POST: " , params)
-        if (x.echipa_activa === 0) {
-            x.echipa_activa = parseInt(params.nr);
-            x.event_type = `apasat-${x.echipa_activa}`;
-            x.emitter.dispatchEvent(new Event("control"));
+        if (x.asteapta) {
+            const nr = parseInt(params.nr);
+            if (x.echipa_activa != nr) {
+                x.echipa_activa = nr
+                x.timp = 10
+                x.asteapta = false;
+                x.event_type = `apasat-${x.echipa_activa}`;
+                x.emitter.dispatchEvent(new Event("control"));
+            }
         }
         return { success: true };
     },

@@ -1,94 +1,144 @@
 <script>
-    // import data2 from "./data.js";
-    import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-    import AppSidebar from "$lib/components/app-sidebar.svelte";
-    import SiteHeader from "$lib/components/site-header.svelte";
-    import SectionCards from "$lib/components/echipe-cards.svelte";
-    // import ChartAreaInteractive from "$lib/components/chart-area-interactive.svelte";
-    import DataTable from "$lib/components/data-table-questions.svelte";
-    // import DataTable from "$lib/components/data-table.svelte";
-
-    import { intrebari } from '$lib/db.js'
     import { enhance } from '$app/forms';
-    import * as ButtonGroup from "$lib/components/ui/button-group/index.js";
+
+    import DataTable from '$lib/components/data-table-questions.svelte';
+    import * as ButtonGroup from '$lib/components/ui/button-group/index.js';
     import { Button } from '$lib/components/ui/button';
 
-    /** @type {import('./$types').PageProps} */
-    let { data, form } = $props();
-    const echipe = $derived(data.echipe)
+    import { intrebari } from '$lib/db.js';
 
-    // console.log("intrebari", intrebari)
+    /** @type {import('./$types').PageProps} */
+    let { data } = $props();
+
+    const echipe = $derived(data.echipe);
+    const nr_intr = $derived(data.nr_intrebare);
+    const intrebare = $derived(data.intrebari[nr_intr % intrebari.length]);
 </script>
 
+<div class="@container/main flex flex-1 flex-col gap-2">
+    <form class="flex flex-col gap-4 p-4" method="POST" use:enhance>
+        <h1 class="text-3xl">Control echipe</h1>
+        <div class="flex w-full flex-row justify-between bg-green-100">
+            <div class="flex w-full flex-row">
+                <div class="flex flex-row">
+                    <button
+                        class="w-full min-w-20 bg-yellow-100 py-10 text-5xl"
+                        formaction="?/echipa1"
+                        type="submit"
+                    >
+                        -
+                    </button>
+                    <button
+                        class="w-full min-w-20 bg-yellow-200 py-10 text-5xl"
+                        formaction="?/echipa1"
+                        type="submit"
+                    >
+                        +
+                    </button>
+                </div>
+                <button
+                    class="w-full bg-emerald-100/50 p-10 text-left text-5xl"
+                    formaction="?/echipa1"
+                    type="submit"
+                >
+                    {echipe[0].puncte}
+                    {echipe[0].denumirea}
+                </button>
+            </div>
 
-<Sidebar.Provider
-    style="--sidebar-width: calc(var(--spacing) * 72); --header-height: calc(var(--spacing) * 12);"
->
-    <AppSidebar variant="inset" />
-    <Sidebar.Inset>
-        <SiteHeader />
-        <div class="flex flex-1 flex-col">
-            <div class="@container/main flex flex-1 flex-col gap-2">
-                <div class="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
-                    <SectionCards echipe={echipe} />
-                    <div>
+            <button
+                class="bg-red-100/50 p-10 text-right text-5xl"
+                formaction="?/reseteaza-respondent"
+                type="submit"
+            >
+                Deselect
+            </button>
 
-                        <form
-                            class="px-4" 
-                            method="POST"
-                            use:enhance
-                        >
+            <div class="flex w-full flex-row">
+                <button
+                    class="w-full bg-emerald-100/50 p-10 text-right text-5xl"
+                    formaction="?/echipa2"
+                    type="submit"
+                >
+                    {echipe[1].denumirea}
+                    {echipe[1].puncte}
+                </button>
 
-                            <div class="pb-2">
-                                <Button formaction="?/decrement" type=submit>
-                                    Anteriorul
-                                </Button>
-                                Nr întrebare: {data.nr_intrebare+1}
-                                <Button formaction="?/increment" type=submit>
-                                    Următorul
-                                </Button>
-                            </div>
-
-                            <ButtonGroup.Root>
-                                <Button variant="outline" size="sm" formaction="?/gresit" type="submit">
-                                    Răspuns gresit
-                                </Button>
-                                <Button variant="outline" size="sm" formaction="?/reseteaza-respondent" type="submit">
-                                    Resezeatză respondent
-                                </Button>
-                                <Button variant="outline" size="sm" formaction="?/corect" type="submit">
-                                    Răspuns corect
-                                </Button>
-                            </ButtonGroup.Root>
-
-
-                        </form>
-
-
-                    </div>
-
-                    <DataTable data={intrebari.map((el, i) => ({...el, id: i, selectat: i === (data.nr_intrebare%intrebari.length)}))} />
-
-                    <!-- <DataTable data={ intrebari.map(i => ({ -->
-                    <!--     id: i.id,  -->
-                    <!--     header: i.titlu,  -->
-                    <!--     reviewer: i.raspuns,  -->
-                    <!--     type: "Întrebare", status: i.id === (data.counter%intrebari.length + 1) ? -->
-                    <!--         "activă"  -->
-                    <!--     : "în așteptare",  -->
-                    <!--     limit: "fară limită", target: "fără țintă"})) } /> -->
-                    <!---->
-                    <!-- <ul> -->
-                    <!-- {#each intrebari as intr} -->
-                    <!--         {#if intr.id === (data.counter%intrebari.length + 1)} -->
-                    <!--             <li class="color-blue-400" style="color:green;">{intr.titlu} | {intr.raspuns}</li> -->
-                    <!--         {:else} -->
-                    <!--             <li>{intr.titlu} | {intr.raspuns}</li> -->
-                    <!--         {/if} -->
-                    <!-- {/each} -->
-                    <!-- </ul> -->
+                <div class="flex flex-row">
+                    <button
+                        class="w-full min-w-20 bg-yellow-100 py-10 text-5xl"
+                        formaction="?/echipa1"
+                        type="submit"
+                    >
+                        -
+                    </button>
+                    <button
+                        class="w-full min-w-20 bg-yellow-200 py-10 text-5xl"
+                        formaction="?/echipa1"
+                        type="submit"
+                    >
+                        +
+                    </button>
                 </div>
             </div>
         </div>
-    </Sidebar.Inset>
-</Sidebar.Provider>
+
+        <h1 class="text-3xl">Control joc</h1>
+        <ButtonGroup.Root>
+            <Button
+                variant="destructive"
+                size="sm"
+                formaction="?/reseteaza-joc"
+                type="submit"
+            >
+                Resezeatză Jioc
+            </Button>
+        </ButtonGroup.Root>
+
+        <h1 class="text-3xl">Control Întrebări</h1>
+        <ButtonGroup.Root>
+            <Button
+                formaction="?/decrement"
+                class="bg-lime-200"
+                variant="outline"
+                size="sm"
+                type="submit"
+            >
+                Anteriorul
+            </Button>
+            <Button
+                formaction="?/increment"
+                class="bg-lime-200"
+                variant="outline"
+                size="sm"
+                type="submit"
+            >
+                Următorul
+            </Button>
+            <Button
+                variant="outline"
+                size="sm"
+                formaction="?/gresit"
+                type="submit"
+            >
+                Răspuns gresit
+            </Button>
+            <Button
+                variant="outline"
+                size="sm"
+                formaction="?/corect"
+                type="submit"
+            >
+                Răspuns corect
+            </Button>
+        </ButtonGroup.Root>
+
+        <DataTable
+            data={intrebari.map((el, i) => ({
+                ...el,
+                id: i,
+                selectat: i === data.nr_intrebare % intrebari.length,
+            }))}
+        />
+    </form>
+</div>
