@@ -37,7 +37,7 @@
         return text;
     }
 </script>
-<div class="bg-[url(/baza-90.jpg)] text-yellow-900">
+<div class="bg-[url(/baza-90.jpg)] bg-cover text-yellow-900">
     <div class="fixed w-full font-bold flex flex-row justify-between text-5xl bg-amber-100/80 ">
         <div
             class="flex w-full flex-row px-15 py-10"
@@ -53,7 +53,7 @@
             class="w-[600px] text-center text-stone-400"
         >
             <div class="relative py-10">
-                <span>00:00</span>
+                <span>{pad_left(minute.toString())}:{pad_left(secunde.toString())}</span>
 
 
                 <div class="absolute w-full bottom-[-1rem]">
@@ -65,8 +65,7 @@
 
         <div
             class="flex w-full flex-row justify-end px-15 py-10"
-            class:text-stone-400={$apasat !== '2'}
-            class:bg-amber-100={$apasat === '2'}
+            class:bg-orange-300={$apasat === '2'}
         >
             <div class="pr-12">
                 {$echipa2_puncte ? $echipa2_puncte : echipa2.puncte}
@@ -94,7 +93,7 @@
         </div>
     </div>
 
-    {#if $raspuns !== '...'}
+    {#if $raspuns !== ''}
         <div 
             class="fixed bottom-0 w-full"
             class:bg-red-50={$raspuns === 'gresit'}
@@ -114,9 +113,6 @@
     {/if}
 
 </div>
-<style>
 
-.stroked {
-    -webkit-text-stroke: 1px white;
-}
+<style>
 </style>
