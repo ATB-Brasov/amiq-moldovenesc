@@ -81,6 +81,10 @@
                 <span 
                     class:text-9xl={intrebarea_activa.tip === 'emoji'}
                 >{intrebarea_activa.titlu}</span>
+            {:else if intrebarea_activa.tip === 'cîntec'}
+                <div class="flex flex-row justify-center gap-10 items-center">
+                    <img height='400px' class="animate-bounce" src="/img/apu_listen_muzik.webp" alt="Apu listens to music">
+                </div>
             {:else if intrebarea_activa.tip === 'imagine'}
                 <div class="flex flex-row justify-center gap-10 items-center">
                     {@html intrebarea_activa.html}

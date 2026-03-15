@@ -5,11 +5,12 @@
     import * as ButtonGroup from '$lib/components/ui/button-group/index.js';
     import { Button } from '$lib/components/ui/button';
 
-    import { intrebari } from '$lib/db.js';
+    // import { intrebari } from '$lib/db.js';
 
     /** @type {import('./$types').PageProps} */
     let { data } = $props();
 
+    const intrebari = $derived(data.intrebari);
     const echipe = $derived(data.echipe);
     const nr_intr = $derived(data.nr_intrebare);
     const intrebare = $derived(data.intrebari[nr_intr % intrebari.length]);
@@ -133,12 +134,57 @@
             </Button>
         </ButtonGroup.Root>
 
-        <DataTable
-            data={intrebari.map((el, i) => ({
-                ...el,
-                id: i,
-                selectat: i === data.nr_intrebare % intrebari.length,
-            }))}
-        />
+        <div
+            class="overflow-hidden rounded-md border border-stone-200 shadow shadow-stone-200/50"
+        >
+            <table class="table-auto w-full">
+                <thead class="bg-stone-50"
+                    ><tr
+                        class="divide-x-3 divide-dashed divide-stone-100 text-left"
+                        ><th>intrebare</th><th>răspuns</th><th
+                            >răspunse</th
+                        ><th>timp</th><th>audio</th></tr
+                    ></thead
+                >
+                <tbody class="divide-y divide-solid divide-stone-200">
+                    {#each intrebari as rind, i}
+                        <tr class="divide-x-3 divide-dashed divide-stone-100"
+                            class:bg-amber-100={i ===
+                                data.nr_intrebare % intrebari.length}
+                            ><td>{rind.titlu}</td><td>{rind.raspuns}</td><td class="text-center"
+                                >{rind.echipa === 1 ? echipe[0].denumirea
+                                : rind.echipa === 2 ? echipe[1].denumirea
+                                : '-'}</td
+                            ><td class="text-center">{rind.timp}s</td><td class="w-[400px]" style="padding: 0 0.5rem;">
+                                {#if rind.tip === 'cîntec'}
+                                    <audio controls={i ===
+                                data.nr_intrebare % intrebari.length} src={rind.audio}></audio>
+                                {/if}
+                            </td>
+                        </tr>
+                    {/each}
+                </tbody>
+            </table>
+        </div>
+
+        {#if false}
+            <DataTable
+                data={intrebari.map((el, i) => ({
+                    ...el,
+                    id: i,
+                    selectat: i === data.nr_intrebare % intrebari.length,
+                    echipa:
+                        el.echipa === 1 ? echipe[1].denumirea
+                        : el.echipa === 2 ? echipe[0].denumirea
+                        : '-',
+                }))}
+            />
+        {/if}
     </form>
 </div>
+
+<style>
+td, th {
+    padding: 0.5rem;
+}
+</style>

@@ -26,6 +26,11 @@ export const echipe = [
  * @property {string} [html] - Html pentru a include imaginile
  * @property {string} raspuns - Răspunsul întrebării
  * @property {number} puncte - Punctele atribuite la răspuns corect
+ * @property {number} timp - Timpul pentru a da răspuns
+ *
+ * @property {string} [html] - Html pentru a include imaginile
+ * @property {string} [audio] - Audio pentru întrebare tip cîntec
+ * @property {number} [echipa] - Echipa care a răspuns
  */
 
 /** @type {Intrebare[]} */
@@ -35,6 +40,23 @@ export const intrebari = [
         titlu: 'Ĉine-i krasavĉik?',
         raspuns: "Vițăpredsedatel' Coordonator EduTI",
         puncte: 1,
+        timp: 10,
+    },
+    {
+        tip: 'cîntec',
+        titlu: '[stinker]',
+        raspuns: 'Adventa',
+        audio: '/audio/atventa.mp3',
+        puncte: 1,
+        timp: 10,
+    },
+    {
+        tip: 'cîntec',
+        titlu: '[stinker]',
+        raspuns: 'Aba',
+        audio: '/audio/aba.opus',
+        puncte: 1,
+        timp: 10,
     },
     {
         tip: 'emoji',
@@ -42,12 +64,14 @@ export const intrebari = [
         raspuns:
             'Brînza gratis îi numai în capcană (бесплатнный сыр только в мышиловке)',
         puncte: 1,
+        timp: 10,
     },
     {
         tip: 'emoji',
         titlu: '🤣🤣🤣🏁',
         raspuns: 'Rîde cel ce rîde la urmă',
         puncte: 1,
+        timp: 10,
     },
     {
         tip: 'imagine',
@@ -55,5 +79,6 @@ export const intrebari = [
         html: "<img height='100px' src='/img/peepoo.webp'> + <img height='100px' src='/img/calendar.webp'>",
         raspuns: "It's wednesday ma' dudes!",
         puncte: 1,
+        timp: 10,
     },
 ];

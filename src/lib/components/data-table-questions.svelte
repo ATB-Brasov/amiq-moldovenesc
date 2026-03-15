@@ -26,6 +26,12 @@
 			enableHiding: false,
 		},
 		{
+			accessorKey: "echipa",
+			header: "Răspunse echipa",
+			cell: ({ row }) => renderSnippet(DataTableText, { text: row.original.echipa }),
+			enableHiding: false,
+		},
+		{
 			accessorKey: "raspuns",
 			header: "Răspuns",
 			cell: ({ row }) => renderSnippet(DataTableText, { text: row.original.raspuns }),
