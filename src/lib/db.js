@@ -1,12 +1,75 @@
+
+/**
+ * @typedef {Object} StareJoc
+ * @property {number}  întrebarea
+ * @property {number}  ekipa
+ * @property {boolean} așteptare
+ * @property {number}  timp
+ */
+
+
+/** @returns {StareJoc} */
+function joc_nou() {
+    return {
+        întrebarea: 0,
+        ekipa: 0,
+        timp: 0,
+        așteptare: true,
+    }
+}
+
+/** @param {StareJoc} joc */
+function resetează_ekipa(joc) {
+    joc.ekipa     = 0;
+    joc.așteptare  = true;
+    joc.timp       = 0;
+}
+
+/** @param {StareJoc} joc */
+function resetează_joc(joc) {
+    resetează_ekipa(joc);
+    joc.întrebarea = 0;
+}
+
+/** 
+ * @param {StareJoc} joc
+ * @param {1|2} nr_ekipa
+ * */
+function skimbă_ekipa(joc, nr_ekipa) {
+    joc.ekipa = nr_ekipa;
+    joc.timp = intrebari[x.joc.întrebarea].timp;
+    joc.așteptare= false
+}
+
+
+/** 
+ * @param {StareJoc} joc 
+ * @param {'următoare'|'anterioară'} directie
+ */
+function skimbă_întrebarea(joc, directie="următoare") {
+    joc.ekipa = 0;
+    joc.timp = 0;
+    joc.așteptare = true;
+    if (directie ==="următoare") {
+        joc.întrebarea= (joc.întrebarea + 1) % intrebari.length;
+    } else {
+        joc.întrebarea= (intrebari.length + joc.întrebarea- 1) % intrebari.length;
+    }
+}
+
 export const x = {
-    echipa_activa: 0,
-    nr_intrebare: 0, // TODO: De schimbat numele!
-    emitter: new EventTarget(),
+
+    joc: joc_nou(),
+
+    resetează_ekipa,
+    resetează_joc,
+    skimbă_întrebarea,
+    skimbă_ekipa,
+
     event_type: '',
-    asteapta: true,
-    timp: 0,
+    emitter: new EventTarget(),
     cronometrul: setInterval(() => {
-        x.timp = Math.max(0, x.timp-1);
+        x.joc.timp = Math.max(0, x.joc.timp-1);
         x.event_type = 'xronox'
         x.emitter.dispatchEvent(new Event('control'));
     }, 1000),
@@ -22,8 +85,8 @@ export const echipe = [
 /**
  * @typedef {Object} Intrebare
  * @property {TipIntrebare} tip - Tipul întrebării
+ *
  * @property {string} titlu - Întrebarea propriu zisă
- * @property {string} [html] - Html pentru a include imaginile
  * @property {string} raspuns - Răspunsul întrebării
  * @property {number} puncte - Punctele atribuite la răspuns corect
  * @property {number} timp - Timpul pentru a da răspuns

@@ -1,4 +1,5 @@
 <script>
+    import { source } from 'sveltekit-sse';
     import { enhance } from '$app/forms';
 
     import DataTable from '$lib/components/data-table-questions.svelte';
@@ -9,6 +10,12 @@
 
     /** @type {import('./$types').PageProps} */
     let { data } = $props();
+    const event = source('/eveniment');
+
+    const apasat = event.select('apasat');
+    const echipa_activa = $derived(
+        $apasat ? $apasat : data.echipa_activa.toString(),
+    );
 
     const intrebari = $derived(data.intrebari);
     const echipe = $derived(data.echipe);
@@ -24,22 +31,24 @@
                 <div class="flex flex-row">
                     <button
                         class="w-full min-w-20 bg-yellow-100 py-10 text-5xl"
-                        formaction="?/echipa1"
+                        formaction="?/decr-echipa1"
                         type="submit"
                     >
                         -
                     </button>
                     <button
                         class="w-full min-w-20 bg-yellow-200 py-10 text-5xl"
-                        formaction="?/echipa1"
+                        formaction="?/incr-echipa1"
                         type="submit"
                     >
                         +
                     </button>
                 </div>
                 <button
-                    class="w-full bg-emerald-100/50 p-10 text-left text-5xl"
+                    class="w-full p-10 text-left text-5xl"
                     formaction="?/echipa1"
+                    class:bg-emerald-100={echipa_activa !== '1'}
+                    class:bg-amber-100={echipa_activa === '1'}
                     type="submit"
                 >
                     {echipe[0].puncte}
@@ -57,9 +66,11 @@
 
             <div class="flex w-full flex-row">
                 <button
-                    class="w-full bg-emerald-100/50 p-10 text-right text-5xl"
+                    class="w-full p-10 text-right text-5xl"
                     formaction="?/echipa2"
                     type="submit"
+                    class:bg-emerald-100={echipa_activa !== '2'}
+                    class:bg-amber-100={echipa_activa === '2'}
                 >
                     {echipe[1].denumirea}
                     {echipe[1].puncte}
@@ -68,14 +79,14 @@
                 <div class="flex flex-row">
                     <button
                         class="w-full min-w-20 bg-yellow-100 py-10 text-5xl"
-                        formaction="?/echipa1"
+                        formaction="?/decr-echipa2"
                         type="submit"
                     >
                         -
                     </button>
                     <button
                         class="w-full min-w-20 bg-yellow-200 py-10 text-5xl"
-                        formaction="?/echipa1"
+                        formaction="?/incr-echipa2"
                         type="submit"
                     >
                         +
@@ -121,6 +132,8 @@
                 size="sm"
                 formaction="?/gresit"
                 type="submit"
+                disabled={echipa_activa === '0' ||
+                    intrebare.echipa !== undefined}
             >
                 Răspuns gresit
             </Button>
@@ -129,6 +142,8 @@
                 size="sm"
                 formaction="?/corect"
                 type="submit"
+                disabled={echipa_activa === '0' ||
+                    intrebare.echipa !== undefined}
             >
                 Răspuns corect
             </Button>

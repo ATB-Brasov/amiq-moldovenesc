@@ -9,13 +9,14 @@ export async function load({ params }) {
 export const actions = {
     default: async ({ params }) => { 
         // console.log("form POST: " , params)
-        if (x.asteapta) {
+        if (x.joc.așteptare) {
             const nr = parseInt(params.nr);
-            if (x.echipa_activa != nr) {
-                x.echipa_activa = nr
-                x.timp = 10
-                x.asteapta = false;
-                x.event_type = `apasat-${x.echipa_activa}`;
+            if (nr !== 1 && nr !== 2) {
+                return { success: false }
+            }
+            if (x.joc.ekipa != nr) {
+                x.skimbă_ekipa(x.joc, nr)
+                x.event_type = `apasat-${nr}`;
                 x.emitter.dispatchEvent(new Event("control"));
             }
         }

@@ -64,7 +64,7 @@ export function POST() {
                 }
             } else if (x.event_type === "nr_intrebare") {
 
-                const {error} = emit("nr_intrebare", x.nr_intrebare.toString())
+                const {error} = emit("nr_intrebare", x.joc.întrebarea.toString())
                 if(error) {
                     console.log(error)
                     return
@@ -91,15 +91,15 @@ export function POST() {
 
             } else if (x.event_type === "corect") {
 
-                if (x.echipa_activa !== 0) {
+                if (x.joc.ekipa !== 0) {
                     const {error} = emit("raspuns", "corect")
                     if(error) {
                         console.log(error)
                         return
                     }
 
-                    const punctaj = echipe[x.echipa_activa - 1].puncte
-                    const {error: error2} = emit(`puncte${x.echipa_activa}`, punctaj.toString())
+                    const punctaj = echipe[x.joc.ekipa - 1].puncte
+                    const {error: error2} = emit(`puncte${x.joc.ekipa}`, punctaj.toString())
                     if(error2) {
                         console.log(error2)
                         return
@@ -109,14 +109,16 @@ export function POST() {
             }
             // x.event_type = ""
 
-            const {error} = emit("timp", x.timp.toString())
+            const {error} = emit("timp", x.joc.timp.toString())
             if(error) {
                 console.log(error)
                 return
             }
 
             const event = await pEvent(x.emitter, "control")
-            console.log("x.event_type", x.event_type)
+            if (x.event_type !== "xronox") {
+                console.log("x.event_type", x.event_type)
+            }
 
         }
     })

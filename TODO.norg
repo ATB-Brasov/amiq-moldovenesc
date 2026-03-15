@@ -16,7 +16,7 @@
 
    ---
 
-  - ( ) De adăugat muzică pentru caraoche
+  - (x) De adăugat muzică pentru caraoche
   - (x) să încercăm să integrăm și imagini 
         Pentru *Formula Basarabească*
   - ( ) Cronometru, reglabil
@@ -24,9 +24,9 @@
 
 * Control
 
-  - ( ) Să putem scade/adăuga puncte, na vseachii slucii (CU ACORDUL TUTUROR DIN CAMERĂ), sau rescrie punctajul
-  - ( ) Restart la joc (Pentru testări)
-  - ( ) Să putem juca muzica de mai multe ori (na vseachii sluceai, pentru caraoche)
+  - (x) Să putem scade/adăuga puncte, na vseachii slucii (CU ACORDUL TUTUROR DIN CAMERĂ), sau rescrie punctajul
+  - (x) Restart la joc (Pentru testări)
+  - (x) Să putem juca muzica de mai multe ori (na vseachii sluceai, pentru caraoche)
 
 * Tablou (interfața evenimentului)
   - ( ) interfață frumoasă :D
@@ -35,5 +35,5 @@
   - (x) Adaugă aiĉi codul de la ESP
 
 * Tehnic
-  - ( ) cîmp la întrebare pentru a o marca ca răspunsă sau nu
+  - (x) cîmp la întrebare pentru a o marca ca răspunsă sau nu
   - ( ) erori mai clare
