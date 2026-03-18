@@ -1,4 +1,4 @@
-import { echipe, x } from '$lib/db.js'
+import { echipe, x, intrebari } from '$lib/db.js'
 
 /** @type {import('./$types').PageServerLoad} */
 export function load({ }) {
@@ -8,5 +8,6 @@ export function load({ }) {
         echipa_activa: x.joc.ekipa,
         scena: x.scena,
         nr_intrebare: x.joc.întrebarea,
+        intrebari: intrebari,
     };
 }

@@ -1,7 +1,7 @@
 // src/routes/custom-event/+server.js
 import { pEvent } from "p-event";
 import { produce } from "sveltekit-sse";
-import { x, echipe } from "$lib/db.js";
+import { x, echipe, intrebari } from "$lib/db.js";
 
 export function POST() {
     return produce(async function start({ emit }) {
@@ -62,27 +62,32 @@ export function POST() {
                     console.log(resp.error)
                     return
                 }
+
             } else if (x.event_type === "nr_intrebare") {
-
-                const {error} = emit("nr_intrebare", x.joc.întrebarea.toString())
-                if(error) {
-                    console.log(error)
+                let resp = emit("nr_intrebare", x.joc.întrebarea.toString())
+                if(resp.error) {
+                    console.log(resp.error)
                     return
                 }
-                const {error: error2} = emit("raspuns", "")
-                if(error2) {
-                    console.log(error2)
+                resp = emit("raspuns", "")
+                if(resp.error) {
+                    console.log(resp.error)
                     return
                 }
-                const {error: error3} = emit("apasat", "0")
-                if(error3) {
-                    console.log(error3)
+                resp = emit("apasat", "0")
+                if(resp.error) {
+                    console.log(resp.error)
+                    return
+                }
+                resp = emit("puncte", intrebari[x.joc.întrebarea].puncte.toString())
+                if(resp.error) {
+                    console.log(resp.error)
                     return
                 }
 
 
-            } else if (x.event_type === "scena") {
-                const {error} = emit("scena", x.scena)
+            } else if (x.event_type === "puncte") {
+                const {error} = emit("puncte", intrebari[x.joc.întrebarea].puncte.toString())
                 if(error) {
                     console.log(error)
                     return

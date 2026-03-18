@@ -25,181 +25,237 @@
     const intrebare = $derived(data.intrebari[nr_intr % intrebari.length]);
 </script>
 
-<div class="@container/main flex flex-1 flex-col gap-2">
-    <form class="flex flex-col gap-4 p-4" method="POST" use:enhance>
-        <h1 class="text-3xl">Control echipe</h1>
-        <div class="flex w-full flex-row justify-between bg-green-100">
-            <div class="flex w-full flex-row">
-                <div class="flex flex-row">
-                    <button
-                        class="w-full min-w-20 bg-yellow-100 py-10 text-5xl"
-                        formaction="?/decr-echipa1"
-                        type="submit"
-                    >
-                        -
-                    </button>
-                    <button
-                        class="w-full min-w-20 bg-yellow-200 py-10 text-5xl"
-                        formaction="?/incr-echipa1"
-                        type="submit"
-                    >
-                        +
-                    </button>
-                </div>
-                <button
-                    class="w-full p-10 text-left text-5xl"
-                    formaction="?/echipa1"
-                    class:bg-emerald-100={echipa_activa !== '1'}
-                    class:bg-amber-100={echipa_activa === '1'}
-                    type="submit"
+<div class="@container/main flex flex-1 flex-col gap-2 font-mono">
+    <form method="POST" use:enhance>
+        <div
+            class="sticky top-0 left-0 z-100 flex w-full flex-col gap-4 border-b-1 bg-white px-6 py-3"
+        >
+            <div class="flex w-full flex-row gap-8 text-3xl">
+                <div
+                    class="flex w-full max-w-100 flex-col overflow-hidden rounded-lg border border-stone-100"
                 >
-                    {echipe[0].puncte}
-                    {echipe[0].denumirea}
-                </button>
+                    <button
+                        class="w-full p-6 text-left"
+                        formaction="?/echipa1"
+                        class:bg-emerald-100={echipa_activa !== '1'}
+                        class:bg-amber-100={echipa_activa === '1'}
+                        type="submit"
+                    >
+                        {echipe[0].denumirea}
+                        {echipe[0].puncte}
+                    </button>
+
+                    <div class="flex flex-row text-xl">
+                        <button
+                            class="w-full min-w-20 bg-yellow-100 py-2"
+                            formaction="?/decr-echipa1"
+                            type="submit"
+                        >
+                            -{intrebare.puncte}pct
+                        </button>
+                        <button
+                            class="w-full min-w-20 bg-yellow-200 py-2"
+                            formaction="?/incr-echipa1"
+                            type="submit"
+                        >
+                            +{intrebare.puncte}pct
+                        </button>
+                    </div>
+                </div>
+
+                <div
+                    class="flex w-full max-w-100 flex-col overflow-hidden rounded-lg border border-stone-100"
+                >
+                    <button
+                        class="w-full p-6 text-right"
+                        formaction="?/echipa2"
+                        type="submit"
+                        class:bg-emerald-100={echipa_activa !== '2'}
+                        class:bg-amber-100={echipa_activa === '2'}
+                    >
+                        {echipe[1].denumirea}
+                        {echipe[1].puncte}
+                    </button>
+
+                    <div class="flex flex-row text-xl">
+                        <button
+                            class="w-full min-w-20 bg-yellow-100 py-2"
+                            formaction="?/decr-echipa2"
+                            type="submit"
+                        >
+                            -{intrebare.puncte}pct
+                        </button>
+                        <button
+                            class="w-full min-w-20 bg-yellow-200 py-2"
+                            formaction="?/incr-echipa2"
+                            type="submit"
+                        >
+                            +{intrebare.puncte}pct
+                        </button>
+                    </div>
+                </div>
             </div>
 
-            <button
-                class="bg-red-100/50 p-10 text-right text-5xl"
-                formaction="?/reseteaza-respondent"
-                type="submit"
-            >
-                Deselect
-            </button>
+            <div class="flex flex-row justify-between">
+                <div class="flex flex-col gap-y-4">
+                    <div class="flex flex-row flex-wrap gap-x-8 gap-y-4">
+                        <ButtonGroup.Root>
+                            <Button
+                                formaction="?/decrement"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                Anteriorul
+                            </Button>
+                            <Button
+                                formaction="?/increment"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                Următorul
+                            </Button>
+                        </ButtonGroup.Root>
 
-            <div class="flex w-full flex-row">
-                <button
-                    class="w-full p-10 text-right text-5xl"
-                    formaction="?/echipa2"
-                    type="submit"
-                    class:bg-emerald-100={echipa_activa !== '2'}
-                    class:bg-amber-100={echipa_activa === '2'}
-                >
-                    {echipe[1].denumirea}
-                    {echipe[1].puncte}
-                </button>
+                        <ButtonGroup.Root>
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                formaction="?/gresit"
+                                class="bg-orange-100"
+                                type="submit"
+                                disabled={echipa_activa === '0' ||
+                                    intrebare.echipa !== undefined}
+                            >
+                                Greșit
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                class="bg-green-100"
+                                formaction="?/corect"
+                                type="submit"
+                                disabled={echipa_activa === '0' ||
+                                    intrebare.echipa !== undefined}
+                            >
+                                Corect
+                            </Button>
+                        </ButtonGroup.Root>
 
-                <div class="flex flex-row">
-                    <button
-                        class="w-full min-w-20 bg-yellow-100 py-10 text-5xl"
-                        formaction="?/decr-echipa2"
-                        type="submit"
-                    >
-                        -
-                    </button>
-                    <button
-                        class="w-full min-w-20 bg-yellow-200 py-10 text-5xl"
-                        formaction="?/incr-echipa2"
-                        type="submit"
-                    >
-                        +
-                    </button>
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            formaction="?/intrebarea"
+                            type="submit"
+                        >
+                            Alege întrebarea
+                        </Button>
+
+                        <Button
+                            variant="outline"
+                            size="lg"
+                            formaction="?/reseteaza-respondent"
+                            type="submit"
+                        >
+                            Deselectează Echipa
+                        </Button>
+
+                    </div>
+
+                    <div class="flex flex-row gap-x-6">
+                        <ButtonGroup.Root>
+                            <Button
+                                formaction="?/dec10"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                -10pct
+                            </Button>
+                            <Button
+                                formaction="?/inc10"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                +10pct
+                            </Button>
+                        </ButtonGroup.Root>
+                        <ButtonGroup.Root>
+                            <Button
+                                formaction="?/inc-timp-10"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                +10sec
+                            </Button>
+                            <Button
+                                formaction="?/inc-timp-20"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                +20sec
+                            </Button>
+                        </ButtonGroup.Root>
+                    </div>
                 </div>
+
+                <Button
+                    variant="destructive"
+                    size="lg"
+                    formaction="?/reseteaza-joc"
+                    type="submit"
+                >
+                    Resezeatză Joc
+                </Button>
             </div>
         </div>
 
-        <h1 class="text-3xl">Control joc</h1>
-        <ButtonGroup.Root>
-            <Button
-                variant="destructive"
-                size="sm"
-                formaction="?/reseteaza-joc"
-                type="submit"
-            >
-                Resezeatză Jioc
-            </Button>
-            <Button
-                variant="outline"
-                size="sm"
-                formaction="?/scena-intro"
-                type="submit"
-            >
-                Introducere
-            </Button>
-            <Button
-                variant="outline"
-                size="sm"
-                formaction="?/scena-tranzitie"
-                type="submit"
-            >
-                Tranziție
-            </Button>
-            <Button
-                variant="outline"
-                size="sm"
-                formaction="?/scena-joc"
-                type="submit"
-            >
-                Joc 
-            </Button>
-        </ButtonGroup.Root>
-
-        <h1 class="text-3xl">Control Întrebări</h1>
-        <ButtonGroup.Root>
-            <Button
-                formaction="?/decrement"
-                class="bg-lime-200"
-                variant="outline"
-                size="sm"
-                type="submit"
-            >
-                Anteriorul
-            </Button>
-            <Button
-                formaction="?/increment"
-                class="bg-lime-200"
-                variant="outline"
-                size="sm"
-                type="submit"
-            >
-                Următorul
-            </Button>
-            <Button
-                variant="outline"
-                size="sm"
-                formaction="?/gresit"
-                type="submit"
-                disabled={echipa_activa === '0' ||
-                    intrebare.echipa !== undefined}
-            >
-                Răspuns gresit
-            </Button>
-            <Button
-                variant="outline"
-                size="sm"
-                formaction="?/corect"
-                type="submit"
-                disabled={echipa_activa === '0' ||
-                    intrebare.echipa !== undefined}
-            >
-                Răspuns corect
-            </Button>
-        </ButtonGroup.Root>
-
         <div
-            class="overflow-hidden rounded-md border border-stone-200 shadow shadow-stone-200/50"
+            class="m-6 overflow-hidden rounded-md border border-stone-200 shadow shadow-stone-200/50"
         >
-            <table class="table-auto w-full">
+            <table class="w-full table-auto">
                 <thead class="bg-stone-50"
                     ><tr
                         class="divide-x-3 divide-dashed divide-stone-100 text-left"
-                        ><th>intrebare</th><th>răspuns</th><th
-                            >răspunse</th
-                        ><th>timp</th><th>audio</th></tr
+                        ><th class="text-center">*</th><th>intrebare</th><th
+                            >răspuns</th
+                        ><th>răspunse</th><th>puncte</th><th>timp</th><th>audio</th></tr
                     ></thead
                 >
                 <tbody class="divide-y divide-solid divide-stone-200">
                     {#each intrebari as rind, i}
-                        <tr class="divide-x-3 divide-dashed divide-stone-100"
+                        <tr
+                            class="divide-x-3 divide-dashed divide-stone-100"
                             class:bg-amber-100={i ===
-                                data.nr_intrebare % intrebari.length}
-                            ><td>{rind.titlu}</td><td>{rind.raspuns}</td><td class="text-center"
+                                nr_intr % intrebari.length}
+                            ><td class="radio-cel"
+                                ><label class="hover:bg-green-50"
+                                    ><input
+                                        checked={i === nr_intr}
+                                        type="radio"
+                                        name="intrebarea"
+                                        value={i}
+                                    /></label
+                                ></td
+                            ><td>{rind.titlu}</td><td>{rind.raspuns}</td><td
+                                class="text-center"
                                 >{rind.echipa === 1 ? echipe[0].denumirea
                                 : rind.echipa === 2 ? echipe[1].denumirea
                                 : '-'}</td
-                            ><td class="text-center">{rind.timp}s</td><td class="w-[400px]" style="padding: 0 0.5rem;">
+                            ><td class="text-center">{rind.puncte}pct</td><td class="text-center">{rind.timp}s</td><td
+                                class="w-[400px]"
+                                style="padding: 0 0.5rem;"
+                            >
                                 {#if rind.tip === 'cîntec'}
-                                    <audio controls={i ===
-                                data.nr_intrebare % intrebari.length} src={rind.audio}></audio>
+                                    <audio
+                                        controls={i ===
+                                            nr_intr % intrebari.length}
+                                        src={rind.audio}
+                                    ></audio>
                                 {/if}
                             </td>
                         </tr>
@@ -208,12 +264,14 @@
             </table>
         </div>
 
+        <div class="h-8"></div>
+
         {#if false}
             <DataTable
                 data={intrebari.map((el, i) => ({
                     ...el,
                     id: i,
-                    selectat: i === data.nr_intrebare % intrebari.length,
+                    selectat: i === nr_intr % intrebari.length,
                     echipa:
                         el.echipa === 1 ? echipe[1].denumirea
                         : el.echipa === 2 ? echipe[0].denumirea
@@ -225,7 +283,20 @@
 </div>
 
 <style>
-td, th {
-    padding: 0.5rem;
-}
+    td,
+    th {
+        padding: 0.5rem;
+    }
+
+    td.radio-cel {
+        padding: 0;
+        line-height: 2.5;
+    }
+
+    td.radio-cel label {
+        display: flex;
+        height: 2.5rem;
+        align-items: center;
+        justify-content: center;
+    }
 </style>
