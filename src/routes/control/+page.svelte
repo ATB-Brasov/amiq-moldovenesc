@@ -6,6 +6,8 @@
     import * as ButtonGroup from '$lib/components/ui/button-group/index.js';
     import { Button } from '$lib/components/ui/button';
 
+    import { numi_jocuri } from '$lib/db.js';
+
     // import { intrebari } from '$lib/db.js';
 
     /** @type {import('./$types').PageProps} */
@@ -104,6 +106,30 @@
                 type="submit"
             >
                 Resezeatză Jioc
+            </Button>
+            <Button
+                variant="outline"
+                size="sm"
+                formaction="?/scena-intro"
+                type="submit"
+            >
+                Introducere
+            </Button>
+            <Button
+                variant="outline"
+                size="sm"
+                formaction="?/scena-tranzitie"
+                type="submit"
+            >
+                Tranziție
+            </Button>
+            <Button
+                variant="outline"
+                size="sm"
+                formaction="?/scena-joc"
+                type="submit"
+            >
+                Joc 
             </Button>
         </ButtonGroup.Root>
 

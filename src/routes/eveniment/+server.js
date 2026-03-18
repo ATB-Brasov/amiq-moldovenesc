@@ -81,8 +81,14 @@ export function POST() {
                 }
 
 
-            } else if (x.event_type === "gresit") {
+            } else if (x.event_type === "scena") {
+                const {error} = emit("scena", x.scena)
+                if(error) {
+                    console.log(error)
+                    return
+                }
 
+            } else if (x.event_type === "gresit") {
                 const {error} = emit("raspuns", "gresit")
                 if(error) {
                     console.log(error)

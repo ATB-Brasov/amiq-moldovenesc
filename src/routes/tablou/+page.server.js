@@ -6,6 +6,7 @@ export function load({ }) {
         echipa1: echipe[0],
         echipa2: echipe[1],
         echipa_activa: x.joc.ekipa,
+        scena: x.scena,
         nr_intrebare: x.joc.întrebarea,
     };
 }

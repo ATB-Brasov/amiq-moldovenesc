@@ -59,6 +59,7 @@ function skimbă_întrebarea(joc, directie="următoare") {
 
 export const x = {
 
+    scena: 'introducere',
     joc: joc_nou(),
 
     resetează_ekipa,
@@ -80,7 +81,17 @@ export const echipe = [
     { puncte: 0, denumirea: 'MeRe' },
 ];
 
-/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec'} TipIntrebare */
+/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec' | 'tranziție'} TipIntrebare */
+
+/** @type {{[K in TipIntrebare]: string}} */
+export const numi_jocuri = {
+    text: "Întrebare tip Text",
+    imagine: "Întrebare tip Imagine",
+    emoji: "Întrebare tip Emoji",
+    "da-nu": "Întrebare tip Da/Nu",
+    "cîntec": "Întrebare tip Cîntec",
+    "tranziție": "Tranziție, nu joc!",
+}
 
 /**
  * @typedef {Object} Intrebare
@@ -105,6 +116,7 @@ export const intrebari = [
         puncte: 1,
         timp: 10,
     },
+    { tip: 'tranziție', raspuns: numi_jocuri["cîntec"], titlu: "", puncte: 0, timp: 0},
     {
         tip: 'cîntec',
         titlu: '[stinker]',

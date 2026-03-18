@@ -8,6 +8,7 @@ export async function load() {
         echipe,
         intrebari,
         echipa_activa: x.joc.ekipa,
+        joc_activ: x.joc_activ,
     };
 }
 
@@ -116,4 +117,23 @@ export const actions = {
         x.emitter.dispatchEvent(new Event('control'));
         return { success: true };
     },
-};
+    'scena-intro': async () => { 
+        x.scena = "introducere"
+        x.event_type = 'scena';
+        x.emitter.dispatchEvent(new Event("control"));
+        return { success: true };
+    },
+    'scena-joc': async () => { 
+        x.scena = "joc"
+        x.event_type = 'scena';
+        x.emitter.dispatchEvent(new Event("control"));
+        return { success: true };
+    },
+    'scena-tranzitie': async () => { 
+        x.scena = "tranzitie"
+        x.event_type = 'scena';
+        x.emitter.dispatchEvent(new Event("control"));
+        return { success: true };
+    },
+
+ }
