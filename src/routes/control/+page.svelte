@@ -6,8 +6,6 @@
     import * as ButtonGroup from '$lib/components/ui/button-group/index.js';
     import { Button } from '$lib/components/ui/button';
 
-    import { numi_jocuri } from '$lib/db.js';
-
     // import { intrebari } from '$lib/db.js';
 
     /** @type {import('./$types').PageProps} */
