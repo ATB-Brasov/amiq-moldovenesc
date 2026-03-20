@@ -1,139 +1,146 @@
 // src/routes/custom-event/+server.js
 import { pEvent } from "p-event";
 import { produce } from "sveltekit-sse";
-import { x, echipe, intrebari } from "$lib/db.js";
+import { x, ekipe, probe } from "$lib/db.js";
+
+function supraemit(emit) {
+    return (nume, data) => {
+        resp = emit(nume, data)
+        if (resp.error) {
+            console.log(resp.error)
+            return false
+        }
+        return true
+    }
+}
 
 export function POST() {
     return produce(async function start({ emit }) {
-
+        const emitor = supraemit(emit)
 
         while (true) {
+            let resp;
+            let ok;
 
             if (x.event_type.startsWith("apasat-")) {
-
                 const found = x.event_type.match(/apasat-(\d)/)
                 if (found === null) {
                     console.error("Why is found null? It cannot be null!!!!")
                     continue
                 }
-                console.log(found[1])
 
-                const {error} = emit("apasat", found[1])
-                if(error) {
-                    console.log(error)
+                resp = emit("apasat", found[1])
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
-
-                const {error: error2} = emit("raspuns", "")
-                if(error2) {
-                    console.log(error2)
+                resp = emit("raspuns", "")
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
 
             } else if (x.event_type === "reseteaza-respondent") {
-                const {error} = emit("apasat", "0")
-                if(error) {
-                    console.log(error)
+                resp = emit("apasat", "0")
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
-                const {error: error2} = emit("raspuns", "")
-                if(error2) {
-                    console.log(error2)
+                resp = emit("raspuns", "")
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
+
             } else if (x.event_type === "reseteaza-joc") {
-                const {error} = emit("apasat", "0")
-                if(error) {
-                    console.log(error)
+                resp = emit("apasat", "0")
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
-                const {error: error2} = emit("raspuns", "")
-                if(error2) {
-                    console.log(error2)
+                resp = emit("raspuns", "")
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
-                let resp = emit('puncte1', '0')
-                if(resp.error) {
+                resp = emit('puncte1', '0')
+                if (resp.error) {
                     console.log(resp.error)
                     return
                 }
                 resp = emit('puncte2', '0')
-                if(resp.error) {
+                if (resp.error) {
                     console.log(resp.error)
                     return
                 }
 
             } else if (x.event_type === "nr_intrebare") {
-                let resp = emit("nr_intrebare", x.joc.întrebarea.toString())
-                if(resp.error) {
+                resp = emit("nr_intrebare", x.joc.proba.toString())
+                if (resp.error) {
                     console.log(resp.error)
                     return
                 }
                 resp = emit("raspuns", "")
-                if(resp.error) {
+                if (resp.error) {
                     console.log(resp.error)
                     return
                 }
                 resp = emit("apasat", "0")
-                if(resp.error) {
+                if (resp.error) {
                     console.log(resp.error)
                     return
                 }
-                resp = emit("puncte", intrebari[x.joc.întrebarea].puncte.toString())
-                if(resp.error) {
+                resp = emit("puncte", probe[x.joc.proba].puncte.toString())
+                if (resp.error) {
                     console.log(resp.error)
                     return
                 }
 
 
             } else if (x.event_type === "puncte") {
-                const {error} = emit("puncte", intrebari[x.joc.întrebarea].puncte.toString())
-                if(error) {
-                    console.log(error)
+                resp = emit("puncte", probe[x.joc.proba].puncte.toString())
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
 
             } else if (x.event_type === "arata-raspuns") {
-                const {error} = emit("raspuns", "arata-raspuns")
-                if(error) {
-                    console.log(error)
+                resp = emit("raspuns", "arata-raspuns")
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
 
             } else if (x.event_type === "gresit") {
-                const {error} = emit("raspuns", "gresit")
-                if(error) {
-                    console.log(error)
+                resp = emit("raspuns", "gresit")
+                if (resp.error) {
+                    console.log(resp.error)
                     return
                 }
 
             } else if (x.event_type === "corect") {
-
                 if (x.joc.ekipa !== 0) {
-                    const {error} = emit("raspuns", "corect")
-                    if(error) {
-                        console.log(error)
+                    resp = emit("raspuns", "corect")
+                    if (resp.error) {
+                        console.log(resp.error)
                         return
                     }
-
-                    const punctaj = echipe[x.joc.ekipa - 1].puncte
-                    const {error: error2} = emit(`puncte${x.joc.ekipa}`, punctaj.toString())
-                    if(error2) {
-                        console.log(error2)
+                    const punctaj = ekipe[x.joc.ekipa - 1].puncte
+                    resp = emit(`puncte${x.joc.ekipa}`, punctaj.toString())
+                    if (resp.error) {
+                        console.log(resp.error)
                         return
                     }
                 }
-
             }
-            // x.event_type = ""
 
-            const {error} = emit("timp", x.joc.timp.toString())
-            if(error) {
+            resp = emit("timp", x.joc.timp.toString())
+            if (resp.error) {
                 console.log(error)
                 return
             }
 
-            const event = await pEvent(x.emitter, "control")
+            await pEvent(x.emitter, "control")
             if (x.event_type !== "xronox") {
                 console.log("x.event_type", x.event_type)
             }

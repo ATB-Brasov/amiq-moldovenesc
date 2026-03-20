@@ -1,8 +1,8 @@
-import { x, echipe } from "$lib/db.js";
+import { x, ekipe } from "$lib/db.js";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
-    return { echipa: echipe[parseInt(params.nr)-1] };
+    return { ekipa: ekipe[parseInt(params.nr)-1] };
 }
 
 /** @satisfies {import('./$types').Actions} */

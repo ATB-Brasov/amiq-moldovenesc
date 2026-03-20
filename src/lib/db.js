@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} StareJoc
- * @property {number}  întrebarea
+ * @property {number}  proba
  * @property {number}  ekipa
  * @property {boolean} așteptare
  * @property {number}  timp
@@ -9,7 +9,7 @@
 /** @returns {StareJoc} */
 function joc_nou() {
     return {
-        întrebarea: 0,
+        proba: 0,
         ekipa: 0,
         timp: 0,
         așteptare: true,
@@ -26,8 +26,8 @@ function resetează_ekipa(joc) {
 /** @param {StareJoc} joc */
 function resetează_joc(joc) {
     resetează_ekipa(joc);
-    joc.întrebarea = 0;
-    intrebari = intrebari2();
+    joc.proba = 0;
+    probe = probe2();
 }
 
 /**
@@ -36,7 +36,7 @@ function resetează_joc(joc) {
  * */
 function skimbă_ekipa(joc, nr_ekipa) {
     joc.ekipa = nr_ekipa;
-    joc.timp = intrebari[x.joc.întrebarea].timp;
+    joc.timp = probe[x.joc.proba].timp;
     joc.așteptare = false;
 }
 
@@ -45,23 +45,23 @@ function skimbă_ekipa(joc, nr_ekipa) {
  * @param {'următoare'|'anterioară'|'fix'} directie
  * @param {number} numar
  */
-function skimbă_întrebarea(joc, directie = 'următoare', numar = -1) {
+function skimbă_proba(joc, directie = 'următoare', numar = -1) {
     joc.ekipa = 0;
     joc.timp = 0;
     joc.așteptare = true;
     if (directie === 'următoare') {
-        joc.întrebarea = (joc.întrebarea + 1) % intrebari.length;
+        joc.proba = (joc.proba + 1) % probe.length;
     } else if (directie === 'anterioară') {
-        joc.întrebarea =
-            (intrebari.length + joc.întrebarea - 1) % intrebari.length;
+        joc.proba =
+            (probe.length + joc.proba - 1) % probe.length;
     } else {
         if (numar <= -1)
             throw new Error('Numărul întrebării nu poate fi negativ');
-        if (numar >= intrebari.length)
+        if (numar >= probe.length)
             throw new Error(
                 'Numărul întrebării nu mai mare ca cantitatea întrebărilor',
             );
-        joc.întrebarea = numar;
+        joc.proba = numar;
     }
 }
 
@@ -71,7 +71,7 @@ export const x = {
 
     resetează_ekipa,
     resetează_joc,
-    skimbă_întrebarea,
+    skimbă_proba,
     skimbă_ekipa,
 
     event_type: '',
@@ -88,29 +88,29 @@ export const x = {
     }, 1000),
 };
 
-export const echipe = [
+export const ekipe = [
     { puncte: 0, denumirea: 'BeRe' },
     { puncte: 0, denumirea: 'MeRe' },
 ];
 
-/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec' | 'tranziție'} TipIntrebare */
+/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec' | 'tranziție'} TipProba */
 
 /**
- * @typedef {Object} Intrebare
- * @property {TipIntrebare} tip - Tipul întrebării
+ * @typedef {Object} Proba
+ * @property {TipProba} tip - Tipul întrebării
  *
- * @property {string} titlu - Întrebarea propriu zisă
+ * @property {string} titlu - proba propriu zisă
  * @property {string} raspuns - Răspunsul întrebării
  * @property {number} puncte - Punctele atribuite la răspuns corect
  * @property {number} timp - Timpul pentru a da răspuns
  *
  * @property {string} [html] - Html pentru a include imaginile
  * @property {string} [audio] - Audio pentru întrebare tip cîntec
- * @property {number} [echipa] - Echipa care a răspuns
+ * @property {number} [ekipa] - Echipa care a răspuns
  */
 
-/** @type {() => Intrebare[]} */
-const intrebari_ = () => [
+/** @type {() => Proba[]} */
+const probe_ = () => [
     {
         tip: 'tranziție',
         raspuns: '1 Ghiciți proverbul din emoji',
@@ -286,8 +286,8 @@ const intrebari_ = () => [
     },
 ];
 
-/** @type {() => Intrebare[]} */
-const intrebari2 = () => [
+/** @type {() => Proba[]} */
+const probe2 = () => [
     {
         tip: 'tranziție',
         titlu: '',
@@ -564,5 +564,5 @@ const intrebari2 = () => [
     },
 ];
 
-/** @type {Intrebare[]} */
-export let intrebari = intrebari2();
+/** @type {Proba[]} */
+export let probe = probe2();

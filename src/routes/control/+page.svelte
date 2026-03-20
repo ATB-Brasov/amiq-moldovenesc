@@ -2,60 +2,69 @@
     import { source } from 'sveltekit-sse';
     import { enhance } from '$app/forms';
 
-    import DataTable from '$lib/components/data-table-questions.svelte';
     import * as ButtonGroup from '$lib/components/ui/button-group/index.js';
     import { Button } from '$lib/components/ui/button';
-
-    // import { intrebari } from '$lib/db.js';
 
     /** @type {import('./$types').PageProps} */
     let { data } = $props();
     const event = source('/eveniment');
 
+    const ekipe = $derived(data.ekipe);
     const apasat = event.select('apasat');
-    const echipa_activa = $derived(
-        $apasat ? $apasat : data.echipa_activa.toString(),
+    const ekipa_activa = $derived(
+        $apasat ? $apasat : data.ekipa_activa.toString(),
     );
 
-    const intrebari = $derived(data.intrebari);
-    const echipe = $derived(data.echipe);
-    const nr_intr = $derived(data.nr_intrebare);
-    const intrebare = $derived(data.intrebari[nr_intr % intrebari.length]);
+    const probe = $derived(data.probe);
+    const nr_proba = $derived(data.nr_intrebare);
+    const proba = $derived(data.probe[nr_proba % probe.length]);
+
+    /** @param {import('$lib/db.js').Proba} proba */
+    function nume_ekipa(proba) {
+        return (
+            proba.ekipa === 1 ? ekipe[0].denumirea
+            : proba.ekipa === 2 ? ekipe[1].denumirea
+            : '-'
+        );
+    }
 </script>
 
 <div class="@container/main flex flex-1 flex-col gap-2 font-mono">
     <form method="POST" use:enhance>
+        <!-- INFO: Antetul cu datele echipelor și butoane de control -->
         <div
             class="sticky top-0 left-0 z-100 flex w-full flex-col gap-4 border-b-1 bg-white px-6 py-3"
         >
+            <!-- INFO: Datele echipelor -->
             <div class="flex w-full flex-row gap-8 text-3xl">
                 <div
                     class="flex w-full max-w-100 flex-col overflow-hidden rounded-lg border border-zinc-200"
                 >
                     <button
-                        class="w-full p-6 text-left"
-                        formaction="?/echipa1"
-                        class:bg-zinc-100={echipa_activa !== '1'}
-                        class:hover:bg-zinc-200={echipa_activa !== '1'} 
-                        class:bg-amber-100={echipa_activa === '1'}
-                        class:hover:bg-amber-200={echipa_activa === '1'}
+                        formaction="?/ekipa1"
+                        class={[
+                            'w-full p-6 text-left',
+                            ekipa_activa === '1' ?
+                                'bg-amber-100 hover:bg-amber-200'
+                            :   'hover:bg-zinc-20 bg-zinc-100',
+                        ]}
                         type="submit"
                     >
-                        {echipe[0].denumirea}
-                        {echipe[0].puncte}
+                        {ekipe[0].denumirea}
+                        {ekipe[0].puncte}
                     </button>
 
                     <div class="flex flex-row text-xl">
                         <button
-                            class="w-full min-w-20 bg-zinc-50 hover:bg-zinc-200 py-2 border-t-1 border-r-1 border-zinc-200"
-                            formaction="?/decr-echipa1"
+                            class="w-full min-w-20 border-t-1 border-r-1 border-zinc-200 bg-zinc-50 py-2 hover:bg-zinc-200"
+                            formaction="?/decr-ekipa1"
                             type="submit"
                         >
                             -10pct
                         </button>
                         <button
-                            class="w-full min-w-20 bg-zinc-50 hover:bg-zinc-200 py-2 border-t-1 border-zinc-200"
-                            formaction="?/incr-echipa1"
+                            class="w-full min-w-20 border-t-1 border-zinc-200 bg-zinc-50 py-2 hover:bg-zinc-200"
+                            formaction="?/incr-ekipa1"
                             type="submit"
                         >
                             +10pct
@@ -67,29 +76,29 @@
                     class="flex w-full max-w-100 flex-col overflow-hidden rounded-lg border border-zinc-200"
                 >
                     <button
-                        class="w-full p-6 text-right "
-                        formaction="?/echipa2"
+                        formaction="?/ekipa2"
                         type="submit"
-                        class:bg-zinc-100={echipa_activa !== '2'}
-                        class:hover:bg-zinc-200={echipa_activa !== '2'} 
-                        class:bg-amber-100={echipa_activa === '2'}
-                        class:hover:bg-amber-200={echipa_activa === '2'}
+                        class={[
+                            'w-full p-6 text-left',
+                            ekipa_activa === '2' ?
+                                'bg-amber-100 hover:bg-amber-200'
+                            :   'hover:bg-zinc-20 bg-zinc-100',
+                        ]}
                     >
-                        {echipe[1].denumirea}
-                        {echipe[1].puncte}
+                        {ekipe[1].denumirea}
+                        {ekipe[1].puncte}
                     </button>
-
                     <div class="flex flex-row text-xl">
                         <button
-                            class="w-full min-w-20 bg-zinc-50 hover:bg-zinc-200 py-2 border-t-1 border-r-1 border-zinc-200"
-                            formaction="?/decr-echipa2"
+                            class="w-full min-w-20 border-t-1 border-r-1 border-zinc-200 bg-zinc-50 py-2 hover:bg-zinc-200"
+                            formaction="?/decr-ekipa2"
                             type="submit"
                         >
                             -10pct
                         </button>
                         <button
-                            class="w-full min-w-20 border-t-1 border-zinc-200 bg-zinc-50 hover:bg-zinc-200 py-2"
-                            formaction="?/incr-echipa2"
+                            class="w-full min-w-20 border-t-1 border-zinc-200 bg-zinc-50 py-2 hover:bg-zinc-200"
+                            formaction="?/incr-ekipa2"
                             type="submit"
                         >
                             +10pct
@@ -98,6 +107,7 @@
                 </div>
             </div>
 
+            <!-- INFO: Butoane de control -->
             <div class="flex flex-row justify-between">
                 <div class="flex flex-col gap-y-4">
                     <div class="flex flex-row flex-wrap gap-x-8 gap-y-4">
@@ -127,8 +137,8 @@
                                 formaction="?/gresit"
                                 class="bg-orange-100"
                                 type="submit"
-                                disabled={echipa_activa === '0' ||
-                                    intrebare.echipa !== undefined}
+                                disabled={ekipa_activa === '0' ||
+                                    proba.ekipa !== undefined}
                             >
                                 Greșit
                             </Button>
@@ -147,8 +157,8 @@
                                 class="bg-green-100"
                                 formaction="?/corect"
                                 type="submit"
-                                disabled={echipa_activa === '0' ||
-                                    intrebare.echipa !== undefined}
+                                disabled={ekipa_activa === '0' ||
+                                    proba.ekipa !== undefined}
                             >
                                 Corect
                             </Button>
@@ -162,7 +172,6 @@
                         >
                             Alege întrebarea
                         </Button>
-
                         <Button
                             variant="outline"
                             size="lg"
@@ -171,7 +180,6 @@
                         >
                             Deselectează Echipa
                         </Button>
-
                     </div>
 
                     <div class="flex flex-row gap-x-6">
@@ -229,43 +237,48 @@
             class="m-6 overflow-hidden rounded-md border border-stone-200 shadow shadow-stone-200/50"
         >
             <table class="w-full table-auto">
-                <thead class="bg-stone-50"
-                    ><tr
+                <thead class="bg-stone-50">
+                    <tr
                         class="divide-x-3 divide-dashed divide-stone-100 text-left"
-                        ><th class="text-center">*</th><th>intrebare</th><th
-                            >răspuns</th
-                        ><th>răspunse</th><th>puncte</th><th>timp</th><th>audio</th></tr
-                    ></thead
-                >
+                    >
+                        <th class="text-center">*</th>
+                        <th>intrebare</th>
+                        <th>răspuns</th>
+                        <th>raspuns_de</th>
+                        <th>puncte</th>
+                        <th>timp</th>
+                        <th>audio</th>
+                    </tr>
+                </thead>
+
                 <tbody class="divide-y divide-solid divide-stone-200">
-                    {#each intrebari as rind, i}
+                    {#each probe as proba, i}
                         <tr
                             class="divide-x-3 divide-dashed divide-stone-100"
-                            class:bg-amber-100={i ===
-                                nr_intr % intrebari.length}
-                            ><td class="radio-cel"
-                                ><label class="hover:bg-green-50"
-                                    ><input
-                                        checked={i === nr_intr}
+                            class:bg-amber-100={i === nr_proba % probe.length}
+                        >
+                            <td class="radio-cel">
+                                <label class="hover:bg-green-50">
+                                    <input
+                                        checked={i === nr_proba}
                                         type="radio"
                                         name="intrebarea"
                                         value={i}
-                                    /></label
-                                ></td
-                            ><td>{rind.titlu}</td><td>{rind.raspuns}</td><td
-                                class="text-center"
-                                >{rind.echipa === 1 ? echipe[0].denumirea
-                                : rind.echipa === 2 ? echipe[1].denumirea
-                                : '-'}</td
-                            ><td class="text-center">{rind.puncte}pct</td><td class="text-center">{rind.timp}s</td><td
-                                class="w-[400px]"
-                                style="padding: 0 0.5rem;"
-                            >
-                                {#if rind.tip === 'cîntec'}
+                                    />
+                                </label>
+                            </td>
+
+                            <td>{proba.titlu}</td>
+                            <td>{proba.raspuns}</td>
+                            <td class="text-center">{nume_ekipa(proba)}</td>
+                            <td class="text-center">{proba.puncte}pct</td>
+                            <td class="text-center">{proba.timp}s</td>
+
+                            <td class="w-[400px]" style="padding: 0 0.5rem;">
+                                {#if proba.tip === 'cîntec'}
                                     <audio
-                                        controls={i ===
-                                            nr_intr % intrebari.length}
-                                        src={rind.audio}
+                                        controls={i === nr_proba % probe.length}
+                                        src={proba.audio}
                                     ></audio>
                                 {/if}
                             </td>
@@ -274,22 +287,6 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="h-8"></div>
-
-        {#if false}
-            <DataTable
-                data={intrebari.map((el, i) => ({
-                    ...el,
-                    id: i,
-                    selectat: i === nr_intr % intrebari.length,
-                    echipa:
-                        el.echipa === 1 ? echipe[1].denumirea
-                        : el.echipa === 2 ? echipe[0].denumirea
-                        : '-',
-                }))}
-            />
-        {/if}
     </form>
 </div>
 
