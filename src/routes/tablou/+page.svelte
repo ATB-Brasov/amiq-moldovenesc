@@ -215,7 +215,7 @@
 
         <div class="relative">
             {#if intrebarea_activa.tip === 'emoji' || intrebarea_activa.tip === 'text'}
-                <span class:text-9xl={intrebarea_activa.tip === 'emoji'}
+                <span class:emoji={intrebarea_activa.tip === 'emoji'} class:text-9xl={intrebarea_activa.tip === 'emoji'}
                     >{intrebarea_activa.titlu}</span
                 >
             {:else if intrebarea_activa.tip === 'cîntec'}
@@ -256,3 +256,8 @@
         </div>
     {/if}
 </div>
+
+
+<style>
+</style>
+
