@@ -372,16 +372,16 @@ const intrebari2 = () => [
         tip: 'text',
         titlu: 'Valentin Guțan este cel mai longeviv primar din Republica Moldova, fiind la al nouălea mandat. Pentru prima data, a fost ales pe când avea 27 de ani, în 1987. Sunt mai multe versiuni despre originea numelui localității conduse de acesta. De exemplu, că numele ar veni de la crengile care erau puse peste râușorul din localitate, sau de la strigătele ciobanilor, sau de la un localnic de demult.',
         raspuns:
-            'Cricova (Denumirea ar veni de la „cracă”, „krik” (strigăt în slavonă) sau un vechi stăpân al satului pe nume Cricovan).',
+            'Cricova (Denumirea ar veni de la «cracă», «krik» (strigăt în slavonă) sau un vechi stăpân al satului pe nume Cricovan).',
         puncte: 20,
         timp: 30,
         html: '',
     },
     {
         tip: 'text',
-        titlu: 'În chip profetic, ACEST serial a avut sloganul: „Istoria următorului președinte”. Serialul a fost difuzat la televiziuni în Estonia, Rusia, Republica Moldova, Ucraina și Kazahstan, iar compania producătoare l-a încărcat gratuit pe internet.',
+        titlu: 'În chip profetic, ACEST serial a avut sloganul: «Istoria următorului președinte». Serialul a fost difuzat la televiziuni în Estonia, Rusia, Republica Moldova, Ucraina și Kazahstan, iar compania producătoare l-a încărcat gratuit pe internet.',
         raspuns:
-            'Volodimir Zelenskii (Serialul este „Slujitorul poporului”. În serial, Youtube-ul îl transformă pe un profesor obișnuit de istorie în președintele Ucrainei, iar ulterior Zelenskii, actorul, a ajuns președintele țării).',
+            'Volodimir Zelenskii (Serialul este «Slujitorul poporului». În serial, Youtube-ul îl transformă pe un profesor obișnuit de istorie în președintele Ucrainei, iar ulterior Zelenskii, actorul, a ajuns președintele țării).',
         puncte: 20,
         timp: 30,
         html: '',
@@ -517,7 +517,7 @@ const intrebari2 = () => [
     {
         tip: 'text',
         titlu: 'Chirtoacă',
-        raspuns: 'toporișcă, cuțit mare, unealtă ( Nord)',
+        raspuns: 'toporișcă, cuțit mare, unealtă (Nord)',
         puncte: 10,
         timp: 10,
         html: '',
@@ -525,7 +525,7 @@ const intrebari2 = () => [
     {
         tip: 'text',
         titlu: 'Pohibă',
-        raspuns: 'defect, problemă ( Bugeac, Sud)',
+        raspuns: 'defect, problemă (Bugeac, Sud)',
         puncte: 10,
         timp: 10,
         html: '',
@@ -533,7 +533,7 @@ const intrebari2 = () => [
     {
         tip: 'text',
         titlu: 'Bujdi',
-        raspuns: 'a se mișca repede ( Nord)',
+        raspuns: 'a se mișca repede (Nord)',
         puncte: 10,
         timp: 10,
         html: '',
@@ -558,14 +558,6 @@ const intrebari2 = () => [
         tip: 'text',
         titlu: '',
         raspuns: '',
-        puncte: 0,
-        timp: 0,
-        html: '',
-    },
-    {
-        tip: 'tranziție',
-        titlu: '',
-        raspuns: '6 Adevăr sau Mit?',
         puncte: 0,
         timp: 0,
         html: '',

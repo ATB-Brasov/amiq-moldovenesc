@@ -14,6 +14,11 @@ export async function load() {
 
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
+    "arata-raspuns": async ({}) => {
+        x.event_type = 'arata-raspuns';
+        x.emitter.dispatchEvent(new Event('control'));
+        return { success: true };
+    },
     gresit: async ({}) => {
         const intrebarea = intrebari[x.joc.întrebarea];
         if (intrebarea.echipa === undefined && (!x.joc.așteptare || x.joc.ekipa !== 0)) {
@@ -75,25 +80,19 @@ export const actions = {
         return { success: true };
     },
     'incr-echipa1': async ({}) => {
-        echipe[0].puncte += intrebari[x.joc.întrebarea].puncte;
+        echipe[0].puncte += 10;
         return { success: true };
     },
     'decr-echipa1': async ({}) => {
-        echipe[0].puncte = Math.max(
-            echipe[0].puncte - intrebari[x.joc.întrebarea].puncte,
-            0,
-        );
+        echipe[0].puncte = Math.max(echipe[0].puncte - 10, 0);
         return { success: true };
     },
     'incr-echipa2': async ({}) => {
-        echipe[1].puncte += intrebari[x.joc.întrebarea].puncte;
+        echipe[1].puncte += 10;
         return { success: true };
     },
     'decr-echipa2': async ({}) => {
-        echipe[1].puncte = Math.max(
-            echipe[1].puncte - intrebari[x.joc.întrebarea].puncte,
-            0,
-        );
+        echipe[1].puncte = Math.max(echipe[1].puncte - 10, 0);
         return { success: true };
     },
     echipa1: async () => {

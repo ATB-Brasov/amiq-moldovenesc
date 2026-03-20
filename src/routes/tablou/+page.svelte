@@ -241,20 +241,25 @@
         <div
             class="fixed bottom-0 w-full"
             class:bg-red-50={$raspuns === 'gresit'}
+            class:bg-amber-50={$raspuns === 'arata-raspuns'}
             class:bg-green-50={$raspuns === 'corect'}
         >
             <div
                 class:text-red-500={$raspuns === 'gresit'}
+                class:text-amber-500={$raspuns === 'arata-raspuns'}
                 class:text-green-500={$raspuns === 'corect'}
-                class="m-auto w-300 py-[2.5vh] text-center text-4xl font-bold"
+                class="m-auto w-350 min-h-50 py-[2.5vh] text-center text-5xl font-bold"
             >
-                Raspuns {$raspuns}
-                {#if $raspuns === 'corect'}
-                    : {intrebarea_activa.raspuns}
+                Raspuns
+                {#if $raspuns !== 'gresit'}
+                    corect: <i>{intrebarea_activa.raspuns}</i>
+                {:else}
+                    greșit
                 {/if}
             </div>
         </div>
     {/if}
+
 </div>
 
 

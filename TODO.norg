@@ -11,8 +11,8 @@
 * Jioc
 
 ** ( ) Vizual
-   -- ( ) Animație de începutul jocului. (De fapt poate fi și animația de tranziție) Care a făcut-o Valeria
-   -- ( ) Tranziții
+   -- (x) Animație de începutul jocului. (De fapt poate fi și animația de tranziție) Care a făcut-o Valeria
+   -- (x) Tranziții
 
    ---
 
@@ -29,7 +29,7 @@
   - (x) Să putem juca muzica de mai multe ori (na vseachii sluceai, pentru caraoche)
 
 * Tablou (interfața evenimentului)
-  - ( ) interfață frumoasă :D
+  - (x) interfață frumoasă :D
 
 * ESP
   - (x) Adaugă aiĉi codul de la ESP

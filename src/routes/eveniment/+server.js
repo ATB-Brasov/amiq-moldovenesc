@@ -93,6 +93,13 @@ export function POST() {
                     return
                 }
 
+            } else if (x.event_type === "arata-raspuns") {
+                const {error} = emit("raspuns", "arata-raspuns")
+                if(error) {
+                    console.log(error)
+                    return
+                }
+
             } else if (x.event_type === "gresit") {
                 const {error} = emit("raspuns", "gresit")
                 if(error) {

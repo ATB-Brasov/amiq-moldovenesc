@@ -30,13 +30,15 @@
         >
             <div class="flex w-full flex-row gap-8 text-3xl">
                 <div
-                    class="flex w-full max-w-100 flex-col overflow-hidden rounded-lg border border-stone-100"
+                    class="flex w-full max-w-100 flex-col overflow-hidden rounded-lg border border-zinc-200"
                 >
                     <button
                         class="w-full p-6 text-left"
                         formaction="?/echipa1"
-                        class:bg-emerald-100={echipa_activa !== '1'}
+                        class:bg-zinc-100={echipa_activa !== '1'}
+                        class:hover:bg-zinc-200={echipa_activa !== '1'} 
                         class:bg-amber-100={echipa_activa === '1'}
+                        class:hover:bg-amber-200={echipa_activa === '1'}
                         type="submit"
                     >
                         {echipe[0].denumirea}
@@ -45,31 +47,33 @@
 
                     <div class="flex flex-row text-xl">
                         <button
-                            class="w-full min-w-20 bg-yellow-100 py-2"
+                            class="w-full min-w-20 bg-zinc-50 hover:bg-zinc-200 py-2 border-t-1 border-r-1 border-zinc-200"
                             formaction="?/decr-echipa1"
                             type="submit"
                         >
-                            -{intrebare.puncte}pct
+                            -10pct
                         </button>
                         <button
-                            class="w-full min-w-20 bg-yellow-200 py-2"
+                            class="w-full min-w-20 bg-zinc-50 hover:bg-zinc-200 py-2 border-t-1 border-zinc-200"
                             formaction="?/incr-echipa1"
                             type="submit"
                         >
-                            +{intrebare.puncte}pct
+                            +10pct
                         </button>
                     </div>
                 </div>
 
                 <div
-                    class="flex w-full max-w-100 flex-col overflow-hidden rounded-lg border border-stone-100"
+                    class="flex w-full max-w-100 flex-col overflow-hidden rounded-lg border border-zinc-200"
                 >
                     <button
-                        class="w-full p-6 text-right"
+                        class="w-full p-6 text-right "
                         formaction="?/echipa2"
                         type="submit"
-                        class:bg-emerald-100={echipa_activa !== '2'}
+                        class:bg-zinc-100={echipa_activa !== '2'}
+                        class:hover:bg-zinc-200={echipa_activa !== '2'} 
                         class:bg-amber-100={echipa_activa === '2'}
+                        class:hover:bg-amber-200={echipa_activa === '2'}
                     >
                         {echipe[1].denumirea}
                         {echipe[1].puncte}
@@ -77,18 +81,18 @@
 
                     <div class="flex flex-row text-xl">
                         <button
-                            class="w-full min-w-20 bg-yellow-100 py-2"
+                            class="w-full min-w-20 bg-zinc-50 hover:bg-zinc-200 py-2 border-t-1 border-r-1 border-zinc-200"
                             formaction="?/decr-echipa2"
                             type="submit"
                         >
-                            -{intrebare.puncte}pct
+                            -10pct
                         </button>
                         <button
-                            class="w-full min-w-20 bg-yellow-200 py-2"
+                            class="w-full min-w-20 border-t-1 border-zinc-200 bg-zinc-50 hover:bg-zinc-200 py-2"
                             formaction="?/incr-echipa2"
                             type="submit"
                         >
-                            +{intrebare.puncte}pct
+                            +10pct
                         </button>
                     </div>
                 </div>
@@ -127,6 +131,15 @@
                                     intrebare.echipa !== undefined}
                             >
                                 Greșit
+                            </Button>
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                formaction="?/arata-raspuns"
+                                class="bg-amber-100"
+                                type="submit"
+                            >
+                                Arată răspuns
                             </Button>
                             <Button
                                 variant="outline"
