@@ -16,7 +16,7 @@
     );
 
     const probe = $derived(data.probe);
-    const nr_proba = $derived(data.nr_intrebare);
+    const nr_proba = $derived(data.nr_proba);
     const proba = $derived(data.probe[nr_proba % probe.length]);
 
     /** @param {import('$lib/db.js').Proba} proba */

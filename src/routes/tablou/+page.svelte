@@ -12,9 +12,9 @@
     const puncte = event.select('puncte');
 
     const probe = $derived(data.probe);
-    const nr_proba_ev = event.select('nr_intrebare');
+    const nr_proba_ev = event.select('nr_proba');
     const nr_proba = $derived(
-        ($nr_proba_ev ? parseInt($nr_proba_ev) : data.nr_intrebare) %
+        ($nr_proba_ev ? parseInt($nr_proba_ev) : data.nr_proba) %
             probe.length,
     );
     const proba_activa = $derived(probe[nr_proba]);
@@ -70,7 +70,7 @@
             c = -Math.sin(Math.PI / 6),
             d = Math.cos(Math.PI / 6),
             tx = -850,
-            ty = -300;
+            ty = 0;
         interpoleaza(0.0, 0.5, (i) => (tx += 750 * quadOut(i))); // intră-n sĉenă
         interpoleaza(0.5, 0.7, (i) => (ty += 100 * quadOut(i))); // traĝe
         interpoleaza(0.7, 1.0, (i) => (ty -= 100 * quadOut(i))); // se ridică

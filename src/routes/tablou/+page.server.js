@@ -6,7 +6,7 @@ export function load({ }) {
         ekipa1: ekipe[0],
         ekipa2: ekipe[1],
         ekipa_activa: x.joc.ekipa,
-        nr_intrebare: x.joc.proba,
+        nr_proba: x.joc.proba,
         probe,
     };
 }

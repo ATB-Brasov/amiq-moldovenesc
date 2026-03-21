@@ -74,15 +74,14 @@ export const x = {
     skimbă_proba,
     skimbă_ekipa,
 
-    /**@type{string}*/ event_type: '',
-    /**@type{string?}*/ event_data: '',
+    /**@type{[string,any][]}*/ evente: [],
 
     emitter: new EventTarget(),
     cronometrul: setInterval(() => {
         let timp_nou = x.joc.timp - 1;
         if (timp_nou < 0) return;
-        x.joc.timp = Math.max(0, x.joc.timp - 1);
-        x.event_type = 'xronox';
+        x.joc.timp = timp_nou;
+        x.evente.push(['timp', timp_nou])
         x.emitter.dispatchEvent(new Event('control'));
     }, 1000),
 };
@@ -565,3 +564,15 @@ const probe2 = () => [
 
 /** @type {Proba[]} */
 export let probe = probe2();
+
+export function skimba_ekipa(/**@type{1|2}*/ nr) {
+    x.skimbă_ekipa(x.joc, nr);
+    anunta_evt(['raspuns', ''], ['apasat', nr]);
+}
+
+/** @param {...[string,any]} data */
+export function anunta_evt(...data) {
+    x.evente = data;
+    x.evente.push(['timp', x.joc.timp])
+    x.emitter.dispatchEvent(new Event('control'));
+}

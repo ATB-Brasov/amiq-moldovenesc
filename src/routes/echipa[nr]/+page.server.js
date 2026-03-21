@@ -1,4 +1,5 @@
-import { x, ekipe } from "$lib/db.js";
+import { fail } from '@sveltejs/kit';
+import { x, ekipe, skimba_ekipa } from "$lib/db.js";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ params }) {
@@ -8,20 +9,9 @@ export async function load({ params }) {
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
     default: async ({ params }) => { 
-        // console.log("form POST: " , params)
-        if (x.joc.așteptare) {
-            const nr = parseInt(params.nr);
-            if (nr !== 1 && nr !== 2) {
-                return { success: false }
-            }
-            if (x.joc.ekipa != nr) {
-                x.skimbă_ekipa(x.joc, nr)
-                x.event_type = 'apasat';
-                x.event_data = params.nr;
-                x.emitter.dispatchEvent(new Event("control"));
-            }
-        }
-        return { success: true };
+        if (!x.joc.așteptare) return { success: true };
+        const nr = parseInt(params.nr);
+        if (nr !== 1 && nr !== 2) return fail(400)
+        if (x.joc.ekipa != nr) skimba_ekipa(nr)
     },
 }
-
