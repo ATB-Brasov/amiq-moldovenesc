@@ -16,7 +16,8 @@ export const actions = {
             }
             if (x.joc.ekipa != nr) {
                 x.skimbă_ekipa(x.joc, nr)
-                x.event_type = `apasat-${nr}`;
+                x.event_type = 'apasat';
+                x.event_data = params.nr;
                 x.emitter.dispatchEvent(new Event("control"));
             }
         }

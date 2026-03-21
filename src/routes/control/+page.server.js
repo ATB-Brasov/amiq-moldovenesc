@@ -1,6 +1,5 @@
 import { fail } from '@sveltejs/kit';
 import { x, ekipe, probe } from '$lib/db.js';
-// import { success } from "zod/v4";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load() {
@@ -14,160 +13,94 @@ export async function load() {
 
 /** @satisfies {import('./$types').Actions} */
 export const actions = {
-    "arata-raspuns": async () => {
-        x.event_type = 'arata-raspuns';
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
-    },
+    "arata-raspuns": async () => anunta_evt('arata-raspuns'),
 
     gresit: async () => {
-        const intrebarea = probe[x.joc.proba];
-        if (intrebarea.ekipa === undefined && (!x.joc.așteptare || x.joc.ekipa !== 0)) {
-
+        const proba = probe[x.joc.proba];
+        if (proba.ekipa === undefined && (!x.joc.așteptare || x.joc.ekipa !== 0)) {
             x.joc.timp      = 0;
             x.joc.așteptare = true;
-
-            x.event_type = 'gresit';
-            x.emitter.dispatchEvent(new Event('control'));
-            return { success: true };
+            anunta_evt('gresit')
+            return;
         }
-        return { success: false, message: 'niĉi o ekipă activă' };
+        return fail(400, { msg: 'niĉi o ekipă activă' });
     },
 
     corect: async () => {
-        const intrebarea = probe[x.joc.proba];
-        if (intrebarea.ekipa === undefined && (!x.joc.așteptare || x.joc.ekipa !== 0)) {
+        const proba = probe[x.joc.proba];
+        if (proba.ekipa === undefined && (!x.joc.așteptare || x.joc.ekipa !== 0)) {
             x.joc.timp = 0;
-
-            ekipe[x.joc.ekipa - 1].puncte +=
-                probe[x.joc.proba].puncte;
-            intrebarea.ekipa = x.joc.ekipa;
-
-            x.event_type = 'corect';
-            x.emitter.dispatchEvent(new Event('control'));
-            return { success: true };
+            const ekipa = ekipe[x.joc.ekipa - 1]
+            ekipa.puncte += probe[x.joc.proba].puncte;
+            proba.ekipa = x.joc.ekipa;
+            anunta_evt('corect')
+            return;
         }
-        return { success: false, message: 'niĉi o ekipă activă' };
+        return fail(400, { msg: 'niĉi o ekipă activă' });
     },
 
     'reseteaza-joc': async () => {
         x.resetează_joc(x.joc)
-
-        ekipe[0].puncte = 0;
-        ekipe[1].puncte = 0;
-        for (let intrebare of probe) {
-            intrebare.ekipa = undefined;
-        }
-        x.event_type = 'reseteaza-joc';
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
+        ekipe.forEach(ekipa => ekipa.puncte = 0)
+        probe.forEach(proba => proba.ekipa = undefined);
+        anunta_evt('reseteaza-joc')
     },
 
     'reseteaza-respondent': async () => {
         x.resetează_ekipa(x.joc)
-        x.event_type = 'reseteaza-respondent';
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
+        anunta_evt('reseteaza-respondent')
     },
 
     decrement: async () => {
         x.skimbă_proba(x.joc, "anterioară")
-
-        x.event_type = 'nr_intrebare';
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
+        anunta_evt("nr_intrebare")
     },
 
     increment: async () => {
         x.skimbă_proba(x.joc)
-
-        x.event_type = 'nr_intrebare';
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
-    },
-
-    'incr-ekipa1': async () => {
-        ekipe[0].puncte += 10;
-        return { success: true };
-    },
-
-    'decr-ekipa1': async () => {
-        ekipe[0].puncte = Math.max(ekipe[0].puncte - 10, 0);
-        return { success: true };
-    },
-
-    'incr-ekipa2': async () => {
-        ekipe[1].puncte += 10;
-        return { success: true };
-    },
-
-    'decr-ekipa2': async () => {
-        ekipe[1].puncte = Math.max(ekipe[1].puncte - 10, 0);
-        return { success: true };
-    },
-
-    ekipa1: async () => {
-        x.skimbă_ekipa(x.joc, 1)
-
-        x.event_type = `apasat-${x.joc.ekipa}`;
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
-    },
-
-    ekipa2: async () => {
-        x.skimbă_ekipa(x.joc, 2)
-        x.event_type = `apasat-${x.joc.ekipa}`;
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
-    },
-
-    'scena-intro': async () => { 
-        x.scena = "introducere"
-        x.event_type = 'scena';
-        x.emitter.dispatchEvent(new Event("control"));
-        return { success: true };
-    },
-
-    'scena-joc': async () => { 
-        x.scena = "joc"
-        x.event_type = 'scena';
-        x.emitter.dispatchEvent(new Event("control"));
-        return { success: true };
-    },
-
-    'scena-tranzitie': async () => { 
-        x.scena = "tranzitie"
-        x.event_type = 'scena';
-        x.emitter.dispatchEvent(new Event("control"));
-        return { success: true };
+        anunta_evt("nr_intrebare")
     },
 
     'intrebarea': async ({request}) => { 
         const data = await request.formData()
         const nr_intrebare = data.get("intrebarea")
-        if (nr_intrebare === null){
-            return fail(400)
-        }
-        console.log("Radio::nr_intrebare =", nr_intrebare)
-
+        if (nr_intrebare === null) return fail(400)
         x.skimbă_proba(x.joc, "fix", parseInt(nr_intrebare.toString()))
-
-        x.event_type = 'nr_intrebare';
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
+        anunta_evt("nr_intrebare")
     },
 
-    "inc10": async () => {
-        probe[x.joc.proba].puncte += 10;
-        x.event_type = 'puncte';
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
+    'decr-ekipa1': async () => {
+        ekipe[0].puncte = Math.max(ekipe[0].puncte - 10, 0);
     },
 
-    "dec10": async () => {
-        probe[x.joc.proba].puncte -= 10;
-        x.event_type = 'puncte';
-        x.emitter.dispatchEvent(new Event('control'));
-        return { success: true };
+    'decr-ekipa2': async () => {
+        ekipe[1].puncte = Math.max(ekipe[1].puncte - 10, 0);
     },
+    'incr-ekipa1': async () => ekipe[0].puncte += 10,
+    'incr-ekipa2': async () => ekipe[1].puncte += 10,
+    ekipa1: async () => skimba_ekipa(1),
+    ekipa2: async () => skimba_ekipa(2),
+    "inc10": async () => inc_puncte( 10),
+    "dec10": async () => inc_puncte(-10),
  }
+
+function inc_puncte(/**@type{number}*/ cant) {
+    probe[x.joc.proba].puncte += cant;
+    anunta_evt("puncte")
+}
+
+function skimba_ekipa(/**@type{1|2}*/ nr) {
+    x.skimbă_ekipa(x.joc, nr)
+    anunta_evt("apasat", nr.toString())
+}
+
+/**
+ * @param {string} tip
+ * @param {string} [data]
+ */
+function anunta_evt(tip, data) {
+    x.event_type = tip;
+    x.event_data = data ?? null;
+    x.emitter.dispatchEvent(new Event('control'));
+}
+

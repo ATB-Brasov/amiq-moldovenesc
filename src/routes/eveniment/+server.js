@@ -5,9 +5,9 @@ import { x, ekipe, probe } from "$lib/db.js";
 
 function supraemit(emit) {
     return (nume, data) => {
-        resp = emit(nume, data)
+        const resp = emit(nume, data)
         if (resp.error) {
-            console.log(resp.error)
+            console.error(`emitor: ${nume}:`, resp.error)
             return false
         }
         return true
@@ -19,132 +19,55 @@ export function POST() {
         const emitor = supraemit(emit)
 
         while (true) {
-            let resp;
-            let ok;
+            let ok = true;
 
-            if (x.event_type.startsWith("apasat-")) {
-                const found = x.event_type.match(/apasat-(\d)/)
-                if (found === null) {
-                    console.error("Why is found null? It cannot be null!!!!")
-                    continue
-                }
-
-                resp = emit("apasat", found[1])
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
-                resp = emit("raspuns", "")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
+            if (x.event_type === "apasat") {
+                ok &&= emitor("apasat", x.event_data)
+                ok &&= emitor("raspuns", "")
 
             } else if (x.event_type === "reseteaza-respondent") {
-                resp = emit("apasat", "0")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
-                resp = emit("raspuns", "")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
+                ok &&= emitor("apasat", "0")
+                ok &&= emitor("raspuns", "")
 
             } else if (x.event_type === "reseteaza-joc") {
-                resp = emit("apasat", "0")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
-                resp = emit("raspuns", "")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
-                resp = emit('puncte1', '0')
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
-                resp = emit('puncte2', '0')
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
+                ok &&= emitor("nr_intrebare", x.joc.proba.toString())
+                ok &&= emitor("raspuns", "")
+                ok &&= emitor("apasat", "0")
+                ok &&= emitor('puncte1', '0')
+                ok &&= emitor('puncte2', '0')
+                ok &&= emitor("puncte", probe[x.joc.proba].puncte.toString())
 
             } else if (x.event_type === "nr_intrebare") {
-                resp = emit("nr_intrebare", x.joc.proba.toString())
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
-                resp = emit("raspuns", "")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
-                resp = emit("apasat", "0")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
-                resp = emit("puncte", probe[x.joc.proba].puncte.toString())
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
+                ok &&= emitor("nr_intrebare", x.joc.proba.toString())
+                ok &&= emitor("raspuns", "")
+                ok &&= emitor("apasat", "0")
+                ok &&= emitor("puncte", probe[x.joc.proba].puncte.toString())
 
 
             } else if (x.event_type === "puncte") {
-                resp = emit("puncte", probe[x.joc.proba].puncte.toString())
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
+                ok &&= emitor("puncte", probe[x.joc.proba].puncte.toString())
 
             } else if (x.event_type === "arata-raspuns") {
-                resp = emit("raspuns", "arata-raspuns")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
+                ok &&= emitor("raspuns", "arata-raspuns")
 
             } else if (x.event_type === "gresit") {
-                resp = emit("raspuns", "gresit")
-                if (resp.error) {
-                    console.log(resp.error)
-                    return
-                }
+                ok &&= emitor("raspuns", "gresit")
 
             } else if (x.event_type === "corect") {
                 if (x.joc.ekipa !== 0) {
-                    resp = emit("raspuns", "corect")
-                    if (resp.error) {
-                        console.log(resp.error)
-                        return
-                    }
+                    ok &&= emitor("raspuns", "corect")
                     const punctaj = ekipe[x.joc.ekipa - 1].puncte
-                    resp = emit(`puncte${x.joc.ekipa}`, punctaj.toString())
-                    if (resp.error) {
-                        console.log(resp.error)
-                        return
-                    }
+                    ok &&= emitor(`puncte${x.joc.ekipa}`, punctaj.toString())
                 }
             }
 
-            resp = emit("timp", x.joc.timp.toString())
-            if (resp.error) {
-                console.log(error)
-                return
-            }
+            ok &&= emitor("timp", x.joc.timp.toString())
+            if (!ok) return
 
             await pEvent(x.emitter, "control")
             if (x.event_type !== "xronox") {
                 console.log("x.event_type", x.event_type)
             }
-
         }
     })
 }

@@ -74,14 +74,13 @@ export const x = {
     skimbă_proba,
     skimbă_ekipa,
 
-    event_type: '',
+    /**@type{string}*/ event_type: '',
+    /**@type{string?}*/ event_data: '',
+
     emitter: new EventTarget(),
     cronometrul: setInterval(() => {
         let timp_nou = x.joc.timp - 1;
-        if (timp_nou < 0) {
-            return;
-        }
-
+        if (timp_nou < 0) return;
         x.joc.timp = Math.max(0, x.joc.timp - 1);
         x.event_type = 'xronox';
         x.emitter.dispatchEvent(new Event('control'));
