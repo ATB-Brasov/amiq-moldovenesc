@@ -1,5 +1,5 @@
 <script>
-    import { quadOut } from 'svelte/easing';
+    import { quadIn, quadOut, cubicIn, cubicOut } from 'svelte/easing';
     import { slide } from 'svelte/transition';
     import { source } from 'sveltekit-sse';
 
@@ -38,9 +38,8 @@
     let t = $derived((proba_activa.tip || tip_ultima_proba || true) && 0);
     setInterval(() => (t += 20), 20 /*50 fps*/);
 
-    const //
-        durata_animatiei = 1500, // msec
-        progres_animatie = $derived(t / durata_animatiei);
+    let durata_animatiei = $derived(proba_activa.tip === "introducere" ? 1000 : 1500); // msec
+    const progres_animatie = $derived(t / durata_animatiei);
 
     let cortina = $derived.by(() => {
         if (proba_activa.tip === 'tranziție')
@@ -140,6 +139,65 @@
         }
     });
 
+    const pozitia_minii_stingi = $derived.by(() => {
+        const teta = Math.PI/4; // => Math.PI/36 -> PI/36(-4.5 => 1) -> PI/36(5.5t-4.5)
+        const tx_initial = 510;
+        const tx_final = 900;
+        let a= Math.cos(teta), 
+            b= Math.sin(teta), 
+            c=-Math.sin(teta), 
+            d= Math.cos(teta), 
+            tx = tx_initial,
+            ty = -68;
+
+        interpoleaza(0.0, 0.6, (i) => (ty -= 52 * quadIn(i))); // traĝe
+        interpoleaza(0.6, 0.8, (i) => (ty -= 22 * quadOut(i))); // traĝe
+        interpoleaza(0.8, 1.0, (i) => (ty += 22 * quadOut(i))); // traĝe
+        interpoleaza(0.0, 0.6, (i) => (tx += (tx_final - 10 - tx_initial)*quadIn(i))); // iese din sĉenă
+        interpoleaza(0.6, 0.8, (i) => (tx += 10*quadOut(i))); // iese din sĉenă
+        interpoleaza(0.8, 1.0, (i) => (tx -=  5*quadOut(i))); // iese din sĉenă
+        interpoleaza(0.0, 0.6, (i) => { // se rotește
+            const //
+                mc = Math.cos((Math.PI / 36) * (-6.7*cubicIn(i) + 4.5)),
+                ms = Math.sin((Math.PI / 36) * (-6.7*cubicIn(i) + 4.5));
+            a = mc;
+            b = ms;
+            c = -ms;
+            d = mc;
+        });
+        return [a, b, c, d, tx, ty].map((x) => x.toString()).join(', ');
+    });
+    const pozitia_minii_drepte = $derived.by(() => {
+        const teta = -Math.PI/4; // => Math.PI/36 -> PI/36(-4.5 => 1) -> PI/36(5.5t-4.5)
+        const tx_initial = 1180;
+        const tx_final = 960;
+        let a= Math.cos(teta), 
+            b= Math.sin(teta), 
+            c=-Math.sin(teta), 
+            d= Math.cos(teta), 
+            tx = tx_initial,
+            ty = -50;
+
+        interpoleaza(0.0, 0.6, (i) => (ty -= 80 * quadIn(i))); // traĝe
+        interpoleaza(0.6, 0.8, (i) => (ty -= 22 * quadOut(i))); // traĝe
+        interpoleaza(0.8, 1.0, (i) => (ty += 32 * quadOut(i))); // traĝe
+        interpoleaza(0.0, 0.6, (i) => (tx += (tx_final + 10 - tx_initial)*quadIn(i))); // iese din sĉenă
+        interpoleaza(0.6, 0.8, (i) => (tx -= 10*quadOut(i))); // iese din sĉenă
+        interpoleaza(0.8, 1.0, (i) => (tx +=  5*quadOut(i))); // iese din sĉenă
+        interpoleaza(0.0, 0.6, (i) => { // se rotește
+            const //
+                mc = Math.cos((Math.PI / 36) * (7*cubicIn(i) - 4.5)),
+                ms = Math.sin((Math.PI / 36) * (7*cubicIn(i) - 4.5));
+            a = mc;
+            b = ms;
+            c = -ms;
+            d = mc;
+        });
+        return [a, b, c, d, tx, ty].map((x) => x.toString()).join(', ');
+    });
+
+
+
     /** @type {HTMLAudioElement?} */
     let audio = null;
     function efect_sonor(/**@type{string}*/ nume_audio) {
@@ -220,11 +278,20 @@
             >
             </div>
             <img class="h-80 absolute top-1/2 left-1/2 z-101" style="transform: translateX(calc(-50% - 70px));" src="/img/coperta/amiq_farabec.webp" alt="">
+
             <img class="absolute h-46 z-102" style="left: calc(50% - 70px + 60px); top: calc(50% - 155px + 160px);" src="/img/coperta/becstins.webp" alt="">
-            <img class="absolute h-46 z-102" style="left: calc(50% - 70px + 60px); top: calc(50% - 155px + 160px);" src="/img/coperta/becaprins.webp" alt="">
-            <img class="absolute h-46 z-102" style="left: calc(50% - 70px - 35px); top: calc(50% - 455px + 160px);" src="/img/coperta/lumina.webp" alt="">
-            <img class="absolute h-46 z-102" style="left: calc(50% - 70px +  5px); top: calc(50% - 345px + 160px);" src="/img/coperta/minastinga.webp" alt="">
-            <img class="absolute h-46 z-102" style="left: calc(50% - 70px + 90px); top: calc(50% - 345px + 160px);" src="/img/coperta/minadreapta.webp" alt="">
+            {#if progres_animatie >= 0.6}
+                <img class="absolute h-46 z-102" style="left: calc(50% - 70px - 25px); top: calc(50% - 455px + 120px);" src="/img/coperta/lumina.webp" alt="">
+                <img class="absolute h-46 z-102" style="left: calc(50% - 70px + 60px); top: calc(50% - 155px + 160px);" src="/img/coperta/becaprins.webp" alt="">
+            {/if}
+            <!-- <img class="absolute h-46 z-102" style="left: calc(50% - 70px +  5px); top: calc(50% - 345px + 160px);" src="/img/coperta/minastinga.webp" alt=""> -->
+            <!-- <img class="absolute h-46 z-102" style="left: calc(50% - 70px + 90px); top: calc(50% - 345px + 160px);" src="/img/coperta/minadreapta.webp" alt=""> -->
+
+            <!-- <img class="absolute h-46 z-102" style="transform: matrix(0.985, -0.174, 0.174, 0.985, 910, -120)" src="/img/coperta/minastinga.webp" alt=""> -->
+            <!-- <img class="absolute h-46 z-103" style="transform: matrix(0.985, 0.174, -0.174, 0.985, 980, -120)" src="/img/coperta/minadreapta.webp" alt=""> -->
+
+            <img class="absolute h-46 z-102" style="transform: matrix({ pozitia_minii_stingi })" src="/img/coperta/minastinga.webp" alt="">
+            <img class="absolute h-46 z-103" style="transform: matrix({ pozitia_minii_drepte })" src="/img/coperta/minadreapta.webp" alt="">
         {/if}
 
         {#if proba_activa.tip === 'tranziție' || tip_ultima_proba === 'tranziție'}
