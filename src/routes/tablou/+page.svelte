@@ -218,17 +218,21 @@
                     }}>{proba_activa.titlu}</span
                 >
             {:else if proba_activa.tip === 'cîntec'}
-                <div class="flex flex-row items-center justify-center gap-10">
+                <div class="flex flex-col items-center justify-center gap-10">
                     <img
                         height="400px"
                         class="animate-bounce"
                         src="/img/apu_listen_muzik.webp"
                         alt="Apu listens to music"
                     />
+                    <div>{proba_activa.titlu}</div>
                 </div>
             {:else if proba_activa.tip === 'imagine'}
-                <div class="flex flex-row items-center justify-center gap-10">
-                    {@html proba_activa.html}
+                <div class="flex flex-col items-center justify-center gap-10">
+                    <div class="flex flex-row gap-6 imagini">
+                        {@html proba_activa.html}
+                    </div>
+                    <div>{proba_activa.titlu}</div>
                 </div>
             {:else}
                 <span>{proba_activa.titlu}</span>
@@ -258,3 +262,9 @@
         </div>
     {/if}
 </div>
+
+<style>
+.imagini :global(img) {
+    height: 30rem;
+}
+</style>
