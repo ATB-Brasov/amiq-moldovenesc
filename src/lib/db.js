@@ -87,11 +87,11 @@ export const x = {
 };
 
 export const ekipe = [
-    { puncte: 0, denumirea: 'BeRe' },
-    { puncte: 0, denumirea: 'MeRe' },
+    { puncte: 0, denumirea: 'Șakalii' },
+    { puncte: 0, denumirea: 'Kențîi' },
 ];
 
-/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec' | 'tranziție' | 'introducere'} TipProba */
+/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec' | 'tranziție' | 'introducere' | 'scena'} TipProba */
 
 /**
  * @typedef {Object} Proba
@@ -389,15 +389,20 @@ const probe2 = () => [
         raspuns: 'Adevăr sau Mit',
         puncte: 0,
         timp: 0,
-        html: '',
     },
     {
-        tip: 'tranziție',
-        titlu: '',
-        raspuns: 'Afișarea Rezultatelor',
+        tip: 'scena',
+        titlu: 'Cronometru',
+        raspuns: '',
+        puncte: 10,
+        timp: 60,
+    },
+    {
+        tip: 'scena',
+        titlu: 'Rezultate',
+        raspuns: '',
         puncte: 0,
         timp: 0,
-        html: '',
     }
 ];
 

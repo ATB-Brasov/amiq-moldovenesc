@@ -77,13 +77,15 @@ export const actions = {
 
     'decr-ekipa1': async () => {
         ekipe[0].puncte = Math.max(ekipe[0].puncte - 10, 0);
+        anunta_evt(["puncte1", ekipe[0].puncte], ["puncte2", ekipe[1].puncte]) 
     },
 
     'decr-ekipa2': async () => {
         ekipe[1].puncte = Math.max(ekipe[1].puncte - 10, 0);
+        anunta_evt(["puncte1", ekipe[0].puncte], ["puncte2", ekipe[1].puncte]) 
     },
-    'incr-ekipa1': async () => (ekipe[0].puncte += 10),
-    'incr-ekipa2': async () => (ekipe[1].puncte += 10),
+    'incr-ekipa1': async () => { ekipe[0].puncte += 10; anunta_evt(["puncte1", ekipe[0].puncte], ["puncte2", ekipe[1].puncte]) },
+    'incr-ekipa2': async () => { ekipe[1].puncte += 10; anunta_evt(["puncte1", ekipe[0].puncte], ["puncte2", ekipe[1].puncte]) },
     'start-timp': async () => { x.joc.timp = probe[x.joc.proba].timp;
         anunta_evt(['timp', '']) },
     'decr-timp-5': async () => (probe[x.joc.proba].timp -= 5),
@@ -102,6 +104,8 @@ function anunta_toate_evte() {
         ['apasat', '0'],
         ['nr_proba', x.joc.proba],
         ['puncte', probe[x.joc.proba].puncte],
+        ['puncte1', ekipe[0].puncte],
+        ['puncte2', ekipe[1].puncte],
     );
 }
 
