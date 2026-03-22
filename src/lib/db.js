@@ -91,7 +91,7 @@ export const ekipe = [
     { puncte: 0, denumirea: 'MeRe' },
 ];
 
-/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec' | 'tranziție'} TipProba */
+/** @typedef {'text' | 'imagine' | 'emoji' | 'da-nu' | 'cîntec' | 'tranziție' | 'introducere'} TipProba */
 
 /**
  * @typedef {Object} Proba
@@ -109,6 +109,14 @@ export const ekipe = [
 
 /** @type {() => Proba[]} */
 const probe2 = () => [
+    {
+        tip: 'introducere',
+        titlu: '',
+        raspuns: 'aMIQ',
+        puncte: 0,
+        timp: 0,
+        html: '',
+    },
     {
         tip: 'tranziție',
         titlu: '',
@@ -191,7 +199,7 @@ const probe2 = () => [
     },
     {
         tip: 'text',
-        titlu: 'Valentin Guțan este cel mai longeviv primar din Republica Moldova, fiind la al nouălea mandat. Pentru prima data, a fost ales pe când avea 27 de ani, în 1987. Sunt mai multe versiuni despre originea numelui localității conduse de acesta. De exemplu, că numele ar veni de la crengile care erau puse peste râușorul din localitate, sau de la strigătele ciobanilor, sau de la un localnic de demult.',
+        titlu: 'Numiți localitatea cunoscută la nivel internațional!',
         raspuns:
             'Cricova (Denumirea ar veni de la «cracă», «krik» (strigăt în slavonă) sau un vechi stăpân al satului pe nume Cricovan).',
         puncte: 20,
@@ -200,7 +208,7 @@ const probe2 = () => [
     },
     {
         tip: 'text',
-        titlu: 'În chip profetic, ACEST serial a avut sloganul: «Istoria următorului președinte». Serialul a fost difuzat la televiziuni în Estonia, Rusia, Republica Moldova, Ucraina și Kazahstan, iar compania producătoare l-a încărcat gratuit pe internet.',
+        titlu: 'Care este prenumele și numele actorului din rolul principal?',
         raspuns:
             'Volodimir Zelenskii (Serialul este «Slujitorul poporului». În serial, Youtube-ul îl transformă pe un profesor obișnuit de istorie în președintele Ucrainei, iar ulterior Zelenskii, actorul, a ajuns președintele țării).',
         puncte: 20,
@@ -209,7 +217,7 @@ const probe2 = () => [
     },
     {
         tip: 'text',
-        titlu: 'În una din versiunile neoficiale ale simbolului care ar desemna această mișcare alternativă, ciocanul e înlocuit cu o cruce.',
+        titlu: 'Care este mișcarea politică?',
         raspuns: 'Comunism creștin',
         puncte: 40,
         timp: 60,
@@ -217,7 +225,7 @@ const probe2 = () => [
     },
     {
         tip: 'text',
-        titlu: 'La alegerile din 2015 din Găgăuzia, pentru prima data guvernator al autonomiei a devenit o femeie, Irina Vlah. Acest fapt nu a rămas neobservat și de unele publicații străine. Astfel, jurnaliștii unei reviste au poreclit-o pe câștigătoare cu pseudonimul unei cântărețe celebre la care au adăugat 4 litere.',
+        titlu: 'Ce poreclă s-a obținut?',
         raspuns: 'Lady Găgăuzia',
         puncte: 40,
         timp: 60,

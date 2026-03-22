@@ -88,7 +88,7 @@
     function mina_iese() {
         let a = 1, b = 0, c = 0, d = 1,
             tx = -100,
-            ty = -300;
+            ty = 0;
         interpoleaza(0.0, 0.2, (i) => (ty += 100 * quadOut(i))); // traĝe
         interpoleaza(0.2, 0.5, (i) => (ty -= 100 * quadOut(i))); // se ridică
         interpoleaza(0.5, 1.0, (i) => (tx -= 700 * quadOut(i))); // iese din sĉenă
@@ -182,7 +182,7 @@
     </div>
 
     <div
-        class="relative flex h-screen w-screen flex-col justify-center overflow-hidden text-center font-mono text-6xl font-bold"
+        class="flex h-screen w-screen flex-col justify-center overflow-hidden text-center font-mono text-6xl font-bold"
     >
         <!-- INFO: Animația de tranziție -->
         {#if proba_activa.tip === 'tranziție' || tip_ultima_proba === 'tranziție'}
@@ -207,6 +207,15 @@
                 alt="mînă care trage ața pentru tranziție"
                 style="transform: matrix({pozitia_minii});"
             />
+
+        {:else if proba_activa.tip === "introducere"}
+            <div
+                class="absolute top-0 z-100 flex h-screen w-screen items-center justify-center bg-white"
+            >
+                <div class="text-6xl font-bold text-stone-600">
+                    aMIQ
+                </div>
+            </div>
         {/if}
 
         <!-- INFO: Întrebarea propriu zisă -->

@@ -84,6 +84,10 @@ export const actions = {
     },
     'incr-ekipa1': async () => (ekipe[0].puncte += 10),
     'incr-ekipa2': async () => (ekipe[1].puncte += 10),
+    'start-timp': async () => { x.joc.timp = probe[x.joc.proba].timp;
+        anunta_evt(['timp', '']) },
+    'decr-timp-10': async () => (probe[x.joc.proba].timp -= 10),
+    'incr-timp-10': async () => (probe[x.joc.proba].timp += 10),
     ekipa1: async () => skimba_ekipa(1),
     ekipa2: async () => skimba_ekipa(2),
     inc10: async () => inc_puncte(10),

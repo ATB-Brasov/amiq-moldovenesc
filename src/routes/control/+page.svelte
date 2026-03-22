@@ -203,20 +203,28 @@
                         </ButtonGroup.Root>
                         <ButtonGroup.Root>
                             <Button
-                                formaction="?/inc-timp-10"
+                                formaction="?/decr-timp-10"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                -10sec
+                            </Button>
+                            <Button
+                                formaction="?/start-timp"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                Start
+                            </Button>
+                            <Button
+                                formaction="?/incr-timp-10"
                                 variant="outline"
                                 size="lg"
                                 type="submit"
                             >
                                 +10sec
-                            </Button>
-                            <Button
-                                formaction="?/inc-timp-20"
-                                variant="outline"
-                                size="lg"
-                                type="submit"
-                            >
-                                +20sec
                             </Button>
                         </ButtonGroup.Root>
                     </div>
