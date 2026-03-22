@@ -118,7 +118,7 @@ const probe2 = () => [
         html: '',
     },
     {
-        tip: 'imagine',
+        tip: 'emoji',
         html: '<img src="/img/1f43a.png" class="emoji emoji-small w-40 h-40" alt="🐺"><img src="/img/1f487-1f3fc-200d-2640-fe0f.png" class="emoji emoji-small w-40 h-40" alt="💇🏼‍♀️"><img src="/img/274c.png" class="emoji emoji-small w-40 h-40" alt="❌">',
         raspuns: 'Lupul își schimbă părul, dar năravul ba.',
         puncte: 10,
@@ -126,7 +126,7 @@ const probe2 = () => [
         titlu: '🐺💇🏼‍♀️❌',
     },
     {
-        tip: 'imagine',
+        tip: 'emoji',
         html: '<img src="/img/1f436.png" class="emoji emoji-small w-40 h-40" alt="🐶"><img src="/img/274c.png" class="emoji emoji-small w-40 h-40" alt="❌"><img src="/img/1fae6.png" class="emoji emoji-small w-40 h-40" alt="🫦">',
         raspuns: 'Câinele care latră nu mușcă.',
         puncte: 10,
@@ -134,7 +134,7 @@ const probe2 = () => [
         titlu: '🐶❌🫦',
     },
     {
-        tip: 'imagine',
+        tip: 'emoji',
         html: '<img src="/img/1f30a.png" class="emoji emoji-small w-40 h-40" alt="🌊"><img src="/img/27a1.png" class="emoji emoji-small w-40 h-40" alt="➡️"><img src="/img/1faa8.png" class="emoji emoji-small w-40 h-40" alt="🪨">',
         raspuns: 'Apa trece, pietrele rămân.',
         puncte: 10,
@@ -142,7 +142,7 @@ const probe2 = () => [
         titlu: '🌊➡️🪨',
     },
     {
-        tip: 'imagine',
+        tip: 'emoji',
         html: '<img src="/img/1f426-200d-2b1b.png" class="emoji emoji-small w-40 h-40" alt="🐦‍⬛"><img src="/img/1f445.png" class="emoji emoji-small w-40 h-40" alt="👅"><img src="/img/2620.png" class="emoji emoji-small w-40 h-40" alt="☠️">',
         raspuns: 'Pasărea pe limba ei piere.',
         puncte: 10,
@@ -150,7 +150,7 @@ const probe2 = () => [
         titlu: '🐦‍⬛👅☠️',
     },
     {
-        tip: 'imagine',
+        tip: 'emoji',
         html: '<img src="/img/1f4b5.png" class="emoji emoji-small w-40 h-40" alt="💵"><img src="/img/274c.png" class="emoji emoji-small w-40 h-40" alt="❌"><img src="/img/1f389.png" class="emoji emoji-small w-40 h-40" alt="🎉">',
         raspuns: 'Banii nu aduc fericirea.',
         puncte: 10,
@@ -158,7 +158,7 @@ const probe2 = () => [
         titlu: '💵❌🎉',
     },
     {
-        tip: 'imagine',
+        tip: 'emoji',
         html: '<img src="/img/2139.png" class="emoji emoji-small w-40 h-40" alt="ℹ️"><img src="/img/1f4d6.png" class="emoji emoji-small w-40 h-40" alt="📖"><img src="/img/2139.png" class="emoji emoji-small w-40 h-40" alt="ℹ️"><img src="/img/1f370.png" class="emoji emoji-small w-40 h-40" alt="🍰">',
         raspuns: 'Ai carte ai parte.',
         puncte: 10,
@@ -166,7 +166,7 @@ const probe2 = () => [
         titlu: 'ℹ️📖ℹ️🍰',
     },
     {
-        tip: 'imagine',
+        tip: 'emoji',
         html: '<img src="/img/1f413.png" class="emoji emoji-small w-40 h-40" alt="🐓"><img src="/img/1f475-1f3fb.png" class="emoji emoji-small w-40 h-40" alt="👵🏻"><img src="/img/1f372.png" class="emoji emoji-small w-40 h-40" alt="🍲">',
         raspuns: 'Găina bătrână face zeamă bună.',
         puncte: 10,
@@ -174,7 +174,7 @@ const probe2 = () => [
         titlu: '🐓👵🏻🍲',
     },
     {
-        tip: 'imagine',
+        tip: 'emoji',
         html: '<img src="/img/1f464.png" class="emoji emoji-small w-40 h-40" alt="👤"><img src="/img/2744.png" class="emoji emoji-small w-40 h-40" alt="❄️"><img src="/img/1f6f7.png" class="emoji emoji-small w-40 h-40" alt="🛷"><img src="/img/2600.png" class="emoji emoji-small w-40 h-40" alt="☀️"><img src="/img/1f40e.png" class="emoji emoji-small w-40 h-40" alt="🐎">',
         raspuns: 'Omul gospodar își face vara sanie și iarna car.',
         puncte: 10,

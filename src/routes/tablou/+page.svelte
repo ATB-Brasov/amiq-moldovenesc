@@ -211,7 +211,7 @@
 
         <!-- INFO: Întrebarea propriu zisă -->
         <div>
-            {#if proba_activa.tip === 'emoji' || proba_activa.tip === 'text'}
+            {#if proba_activa.tip === 'text'}
                 <span
                     class={{
                         'emoji text-9xl': proba_activa.tip === 'emoji',
@@ -226,6 +226,12 @@
                         alt="Apu listens to music"
                     />
                     <div>{proba_activa.titlu}</div>
+                </div>
+            {:else if proba_activa.tip === 'emoji'}
+                <div class="flex flex-col items-center justify-center gap-10">
+                    <div class="flex flex-row gap-6">
+                        {@html proba_activa.html}
+                    </div>
                 </div>
             {:else if proba_activa.tip === 'imagine'}
                 <div class="flex flex-col items-center justify-center gap-10">
