@@ -28,7 +28,7 @@
             timp = parseInt($timp_evt),
             sec = fmt_timp(Math.max(0, timp % 60).toString()),
             min = fmt_timp(Math.max(0, Math.floor(timp / 60)).toString());
-        return `${min}:${sec}`;
+        return sec; // `${min}:${sec}`;
     });
 
     function fmt_timp(/**@type {string}*/ text) {
@@ -62,6 +62,26 @@
         if (interpolator < 0) interpolator = 0;
         else if (interpolator > 1) interpolator = 1;
         return func(interpolator);
+    }
+
+    function ata_intra() {
+        let a = 1, b = 0, c = 0, d = 1,
+            tx = 420,
+            ty = -1360;
+        interpoleaza(0.0, 0.3, (i) => (ty +=1000 * quadOut(i))); // traĝe
+        interpoleaza(0.5, 0.7, (i) => (ty += 100 * quadOut(i))); // traĝe
+        interpoleaza(0.7, 1.0, (i) => (ty -= 100 * quadOut(i))); // se ridică
+        return [a, b, c, d, tx, ty].map((x) => x.toString()).join(', ');
+    }
+
+    function ata_iese() {
+        let a = 1, b = 0, c = 0, d = 1,
+            tx = 420,
+            ty = -360;
+        interpoleaza(0.0, 0.2, (i) => (ty += 100 * quadOut(i))); // traĝe
+        interpoleaza(0.2, 0.5, (i) => (ty -= 100 * quadOut(i))); // se ridică
+        interpoleaza(0.5, 1.0, (i) => (ty -=1000 * quadOut(i))); // se ridică
+        return [a, b, c, d, tx, ty].map((x) => x.toString()).join(', ');
     }
 
     function mina_intra() {
@@ -104,6 +124,14 @@
         return [a, b, c, d, tx, ty].map((x) => x.toString()).join(', ');
     }
 
+    const pozitia_atei = $derived.by(() => {
+        if (tip_ultima_proba === 'tranziție') {
+            return ata_iese();
+        } else if (proba_activa.tip === 'tranziție') {
+            return ata_intra();
+        }
+    });
+
     const pozitia_minii = $derived.by(() => {
         if (tip_ultima_proba === 'tranziție') {
             return mina_iese();
@@ -135,7 +163,7 @@
     $effect(() => {
         if ($raspuns === 'corect') {
             efect_sonor('/audio/rasp-corect.wav');
-        } else if ($raspuns === 'gresit') {
+        } else if ($raspuns === 'gresit' || $raspuns === 'arata-raspuns') {
             efect_sonor('/audio/rasp-gres.wav');
         }
     });
@@ -144,7 +172,7 @@
 <div class="bg-[url(/baza-90.jpg)] bg-cover text-yellow-900">
     <!-- INFO: Antetul cu echipe și timp -->
     <div
-        class="fixed flex w-full flex-row justify-between bg-amber-100/80 text-5xl font-bold"
+        class="fixed flex w-full flex-row justify-between bg-amber-100/80 text-5xl font-[Syne] font-bold"
     >
         <div
             class={[
@@ -155,9 +183,9 @@
         >
             <span>{data.ekipa1.denumirea}</span>
         </div>
-        <div class="w-150 text-center text-stone-400">
-            <div class="relative py-10">
-                <span>{timp}</span>
+        <div class="w-150 text-center">
+            <div class="relative py-10 font-[FiraCode_Nerd_Font] ">
+                <span class="font-extrabold text-6xl text-[#3R0C09]">{timp}</span>
                 <div class="absolute -bottom-4 w-full">
                     <span
                         class={[
@@ -182,17 +210,31 @@
     </div>
 
     <div
-        class="flex h-screen w-screen flex-col justify-center overflow-hidden text-center font-mono text-6xl font-bold"
+        class="flex h-screen w-screen flex-col justify-center overflow-hidden text-center text-6xl font-bold"
     >
         <!-- INFO: Animația de tranziție -->
+        {#if proba_activa.tip === "introducere" || nr_proba === 1}
+
+            <div
+                class="bg-[url(/baza-90.jpg)] bg-cover absolute top-0 z-100 flex h-screen w-screen items-center justify-center"
+            >
+            </div>
+            <img class="h-80 absolute top-1/2 left-1/2 z-101" style="transform: translateX(calc(-50% - 70px));" src="/img/coperta/amiq_farabec.webp" alt="">
+            <img class="absolute h-46 z-102" style="left: calc(50% - 70px + 60px); top: calc(50% - 155px + 160px);" src="/img/coperta/becstins.webp" alt="">
+            <img class="absolute h-46 z-102" style="left: calc(50% - 70px + 60px); top: calc(50% - 155px + 160px);" src="/img/coperta/becaprins.webp" alt="">
+            <img class="absolute h-46 z-102" style="left: calc(50% - 70px - 35px); top: calc(50% - 455px + 160px);" src="/img/coperta/lumina.webp" alt="">
+            <img class="absolute h-46 z-102" style="left: calc(50% - 70px +  5px); top: calc(50% - 345px + 160px);" src="/img/coperta/minastinga.webp" alt="">
+            <img class="absolute h-46 z-102" style="left: calc(50% - 70px + 90px); top: calc(50% - 345px + 160px);" src="/img/coperta/minadreapta.webp" alt="">
+        {/if}
+
         {#if proba_activa.tip === 'tranziție' || tip_ultima_proba === 'tranziție'}
             {#if cortina}
                 <div
                     out:slide={{ duration: 900 }}
                     in:slide={{ duration: 900 }}
-                    class="absolute top-0 z-100 flex h-screen w-screen items-center justify-center bg-white"
+                    class="absolute bg-[url(/img/draperie.png)] bg-cover top-0 z-110 flex flex-col h-screen w-screen items-center justify-center" 
                 >
-                    <div class="text-6xl font-bold text-stone-600">
+                    <div class="text-6xl font-[Syne] font-extrabold text-[#FDF7D3]">
                         {#if proba_activa.tip === 'tranziție'}
                             {proba_activa.raspuns}
                         {:else}
@@ -202,29 +244,27 @@
                 </div>
             {/if}
             <img
+                src="/img/ata.webp"
+                class="absolute z-149"
+                alt="ața pentru tranziție"
+                style="transform: matrix({pozitia_atei});"
+            />
+            <img
                 src="/img/mina.webp"
                 class="absolute z-150"
                 alt="mînă care trage ața pentru tranziție"
                 style="transform: matrix({pozitia_minii});"
             />
 
-        {:else if proba_activa.tip === "introducere"}
-            <div
-                class="absolute top-0 z-100 flex h-screen w-screen items-center justify-center bg-white"
-            >
-                <div class="text-6xl font-bold text-stone-600">
-                    aMIQ
-                </div>
-            </div>
         {/if}
 
         <!-- INFO: Întrebarea propriu zisă -->
-        <div>
+        <div class="text-[#3R0C09] font-[Syne] font-semibold">
             {#if proba_activa.tip === 'text'}
                 <span
                     class={{
                         'emoji text-9xl': proba_activa.tip === 'emoji',
-                    }}>{proba_activa.titlu}</span
+                    }}>{@html proba_activa.titlu}</span
                 >
             {:else if proba_activa.tip === 'cîntec'}
                 <div class="flex flex-col items-center justify-center gap-10">
@@ -253,6 +293,12 @@
                 <span>{proba_activa.titlu}</span>
             {/if}
         </div>
+    </div>
+
+    <div class="absolute px-15 py-10 bottom-0 left-0 w-full">
+
+        <img class="h-20" src="/img/logoamiq.webp" alt="">
+
     </div>
 
     <!-- INFO: Răspunsul la întrebare -->

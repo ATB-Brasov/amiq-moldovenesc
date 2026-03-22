@@ -80,7 +80,7 @@
                         type="submit"
                         class={[
                             'w-full p-6 text-left',
-                            ekipa_activa === '2' ?
+                            (ekipa_activa === '2') ?
                                 'bg-amber-100 hover:bg-amber-200'
                             :   'hover:bg-zinc-20 bg-zinc-100',
                         ]}
@@ -129,6 +129,7 @@
                                 Următorul
                             </Button>
                         </ButtonGroup.Root>
+
 
                         <ButtonGroup.Root>
                             <Button
@@ -211,12 +212,28 @@
                                 -10sec
                             </Button>
                             <Button
+                                formaction="?/decr-timp-5"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                -5sec
+                            </Button>
+                            <Button
                                 formaction="?/start-timp"
                                 variant="outline"
                                 size="lg"
                                 type="submit"
                             >
                                 Start
+                            </Button>
+                            <Button
+                                formaction="?/incr-timp-5"
+                                variant="outline"
+                                size="lg"
+                                type="submit"
+                            >
+                                +5sec
                             </Button>
                             <Button
                                 formaction="?/incr-timp-10"
@@ -239,6 +256,10 @@
                     Resezeatză Joc
                 </Button>
             </div>
+
+            {#if proba.ekipa !== undefined}
+                <div class="bg-orange-100">A răspuns deja echipa nr: {proba.ekipa}</div>
+            {/if}
         </div>
 
         <div

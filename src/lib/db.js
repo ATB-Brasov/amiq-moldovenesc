@@ -192,14 +192,14 @@ const probe2 = () => [
     {
         tip: 'tranziție',
         titlu: '',
-        raspuns: 'Ce? Unde? Cînd?',
+        raspuns: 'Ce? Unde? Când?',
         puncte: 0,
         timp: 0,
         html: '',
     },
     {
         tip: 'text',
-        titlu: 'Numiți localitatea cunoscută la nivel internațional!',
+        titlu: 'Numiți localitatea<br>cunoscută la nivel internațional!',
         raspuns:
             'Cricova (Denumirea ar veni de la «cracă», «krik» (strigăt în slavonă) sau un vechi stăpân al satului pe nume Cricovan).',
         puncte: 20,
@@ -208,7 +208,7 @@ const probe2 = () => [
     },
     {
         tip: 'text',
-        titlu: 'Care este prenumele și numele actorului din rolul principal?',
+        titlu: 'Care este prenumele și numele<br>actorului din rolul principal?',
         raspuns:
             'Volodimir Zelenskii (Serialul este «Slujitorul poporului». În serial, Youtube-ul îl transformă pe un profesor obișnuit de istorie în președintele Ucrainei, iar ulterior Zelenskii, actorul, a ajuns președintele țării).',
         puncte: 20,
@@ -322,7 +322,7 @@ const probe2 = () => [
     {
         tip: 'tranziție',
         titlu: '',
-        raspuns: 'Definește regionalismul',
+        raspuns: 'Regionalism Ascuns',
         puncte: 0,
         timp: 0,
         html: '',
@@ -384,13 +384,21 @@ const probe2 = () => [
         html: '',
     },
     {
-        tip: 'text',
+        tip: 'tranziție',
         titlu: '',
-        raspuns: '',
+        raspuns: 'Adevăr sau Mit',
         puncte: 0,
         timp: 0,
         html: '',
     },
+    {
+        tip: 'tranziție',
+        titlu: '',
+        raspuns: 'Afișarea Rezultatelor',
+        puncte: 0,
+        timp: 0,
+        html: '',
+    }
 ];
 
 /** @type {Proba[]} */
