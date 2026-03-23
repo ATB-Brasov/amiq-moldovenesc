@@ -42,7 +42,7 @@
         return text.length < 2 ? '0' + text : text;
     }
 
-    let t = $derived((cistigator || proba_activa.tip || tip_ultima_proba || true) && 0);
+    let t = $derived((nr_proba || cistigator || proba_activa.tip || tip_ultima_proba || true) && 0);
     setInterval(() => (t += 20), 20 /*50 fps*/);
 
     let durata_animatiei = $derived(
@@ -164,6 +164,7 @@
         tx_final = 900,
         ty_initial = -68,
     ) => {
+        if (proba_activa.tip === 'tranziție') return "0.981627183447664, -0.19080899537654483, 0.19080899537654483, 0.981627183447664, 895, -120"
         const teta = Math.PI / 4; // => Math.PI/36 -> PI/36(-4.5 => 1) -> PI/36(5.5t-4.5)
         let a = Math.cos(teta),
             b = Math.sin(teta),
@@ -199,6 +200,7 @@
         tx_final = 960,
         ty_initial = -50,
     ) => {
+        if (proba_activa.tip === 'tranziție') return "0.9762960071199334, 0.21643961393810288, -0.21643961393810288, 0.9762960071199334, 965, -120"
         const teta = -Math.PI / 4; // => Math.PI/36 -> PI/36(-4.5 => 1) -> PI/36(5.5t-4.5)
         let a = Math.cos(teta),
             b = Math.sin(teta),
@@ -238,6 +240,13 @@
         audio.play();
     }
 
+    const xrono_evt = event.select("xrono")
+    $effect(() => {
+        if ($xrono_evt === "expirat") {
+            console.log("expirat!")
+            efect_sonor('/audio/end_time.wav');
+        }
+    });
     $effect(() => {
         if ($apasat === '1' || $apasat === '2') {
             efect_sonor('/audio/selecție.wav');
@@ -320,7 +329,7 @@
                 src="/img/coperta/becstins.webp"
                 alt=""
             />
-            {#if progres_animatie >= 0.6}
+            {#if proba_activa.tip === 'tranziție' || progres_animatie >= 0.6}
                 <img
                     class="absolute z-102 h-46"
                     style="left: calc(50% - 70px - 25px); top: calc(50% - 455px + 120px);"
@@ -354,12 +363,12 @@
                     class="absolute top-0 z-100 flex h-screen w-screen items-center justify-center bg-white bg-[url(/img/xrono/fundal.webp)] bg-cover"
                 >
                     <img
-                        class="mr-14 mb-2 h-[600px]"
+                        class="mr-14 mt-2 h-[600px]"
                         src="/img/xrono/cronometru.webp"
                         alt=""
                     />
                     <span
-                        class="absolute font-[FiraCode_Nerd_Font] text-[10rem] font-extrabold text-[#3R0C09]"
+                        class="absolute text-[10rem] font-extrabold text-[#3R0C09]"
                         >{timp}</span
                     >
                 </div>

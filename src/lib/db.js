@@ -80,6 +80,7 @@ export const x = {
     cronometrul: setInterval(() => {
         let timp_nou = x.joc.timp - 1;
         if (timp_nou < 0) return;
+        if (timp_nou === 0) x.evente.push(['xrono', 'expirat'])
         x.joc.timp = timp_nou;
         x.evente.push(['timp', timp_nou])
         x.emitter.dispatchEvent(new Event('control'));
@@ -109,6 +110,14 @@ export const ekipe = [
 
 /** @type {() => Proba[]} */
 const probe2 = () => [
+    {
+        tip: 'introducere',
+        titlu: '',
+        raspuns: 'aMIQ',
+        puncte: 0,
+        timp: 0,
+        html: '',
+    },
     {
         tip: 'introducere',
         titlu: '',
@@ -411,7 +420,7 @@ export let probe = probe2();
 
 export function skimba_ekipa(/**@type{1|2}*/ nr) {
     x.skimbă_ekipa(x.joc, nr);
-    anunta_evt(['raspuns', ''], ['apasat', nr]);
+    anunta_evt(['raspuns', ''], ['apasat', nr], ['xrono', '']);
 }
 
 /** @param {...[string,any]} data */

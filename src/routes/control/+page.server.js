@@ -87,7 +87,7 @@ export const actions = {
     'incr-ekipa1': async () => { ekipe[0].puncte += 10; anunta_evt(["puncte1", ekipe[0].puncte], ["puncte2", ekipe[1].puncte]) },
     'incr-ekipa2': async () => { ekipe[1].puncte += 10; anunta_evt(["puncte1", ekipe[0].puncte], ["puncte2", ekipe[1].puncte]) },
     'start-timp': async () => { x.joc.timp = probe[x.joc.proba].timp;
-        anunta_evt(['timp', '']) },
+        anunta_evt(['timp', ''], ['xrono', '']) },
     'decr-timp-5': async () => (probe[x.joc.proba].timp -= 5),
     'incr-timp-5': async () => (probe[x.joc.proba].timp += 5),
     'decr-timp-10': async () => (probe[x.joc.proba].timp -= 10),
